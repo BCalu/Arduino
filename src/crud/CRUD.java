@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 public class CRUD {
     
-    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/rxtx";
+    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/Arduino";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
     
