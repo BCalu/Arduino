@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 import javax.sql.rowset.serial.SerialException;
 import jssc.SerialPortException;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 
 public class SerialTest {
@@ -22,7 +24,7 @@ public class SerialTest {
     private PanamaHitek_Arduino ARD = new PanamaHitek_Arduino();
     
     /* El puerto donde estara conectado el Arduino. */
-    private static final String PORT_NAME = "COM7";
+    private static final String PORT_NAME = "COM8";
     
     /* Cantidad de bits por segundo */
     private static final int DATA_RATE = 9600;
@@ -35,6 +37,7 @@ public class SerialTest {
     
     /* Datos */
     private Date fecha;
+    private final DateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     private float AccX, AccY, AccZ, Accx2, Accy2, Accz2, Accx3, Accy3, Accz3,
             Accx4, Accy4, Accz4;
     public String line;
@@ -61,37 +64,39 @@ public class SerialTest {
     /* Tokeniza la linea recibida por el arduino y agrega a la BDD */
     public void PrepareSqlString(String linea){
         tokens = new StringTokenizer(linea, ",");
-        cont = 0;
+        cont = 1;
         while (tokens.hasMoreTokens()){
-            if(cont == 0)
+            if(cont == 1)
                 AccX = Float.parseFloat(tokens.nextToken());
-            else if (cont == 1)
-                AccY = Float.parseFloat(tokens.nextToken());
             else if (cont == 2)
-                AccZ = Float.parseFloat(tokens.nextToken());
+                AccY = Float.parseFloat(tokens.nextToken());
             else if (cont == 3)
-                Accx2 = Float.parseFloat(tokens.nextToken());
+                AccZ = Float.parseFloat(tokens.nextToken());
             else if (cont == 4)
-                Accy2 = Float.parseFloat(tokens.nextToken());
+                Accx2 = Float.parseFloat(tokens.nextToken());
             else if (cont == 5)
-                Accz2 = Float.parseFloat(tokens.nextToken());
+                Accy2 = Float.parseFloat(tokens.nextToken());
             else if (cont == 6)
-                Accx3 = Float.parseFloat(tokens.nextToken());
+                Accz2 = Float.parseFloat(tokens.nextToken());
             else if (cont == 7)
-                Accy3 = Float.parseFloat(tokens.nextToken());
+                Accx3 = Float.parseFloat(tokens.nextToken());
             else if (cont == 8)
-                Accz3 = Float.parseFloat(tokens.nextToken());
+                Accy3 = Float.parseFloat(tokens.nextToken());
             else if (cont == 9)
-                Accx4 = Float.parseFloat(tokens.nextToken());
+                Accz3 = Float.parseFloat(tokens.nextToken());
             else if (cont == 10)
-                Accy4 = Float.parseFloat(tokens.nextToken());
+                Accx4 = Float.parseFloat(tokens.nextToken());
             else if (cont == 11)
+                Accy4 = Float.parseFloat(tokens.nextToken());
+            else if (cont == 12)
                 Accz4 = Float.parseFloat(tokens.nextToken());
-        /* poner fecha */
-        cont++;
+            cont++;
         }
-        SQL = "INSERT INTO test (AccX, AccY, AccZ, accx2, accy2, accz2, accx3, accy3, accz3, accx4, accy4, accz4) "
-                + "VALUES ("+AccX+", "+AccY+", "+AccZ+", "+Accx2+", "+Accy2+", "+Accz2+", "+Accx3+", "+Accy3+", "+Accz3+", "+Accx4+", "+Accy4+", "+Accz4+")";
+        fecha = new Date(System.currentTimeMillis());
+        //System.out.println(formato.format(fecha));
+        SQL = "INSERT INTO test (Fecha, AccX, AccY, AccZ, accx2, accy2, accz2, accx3, accy3, accz3, accx4, accy4, accz4) "
+                + "VALUES ('"+formato.format(fecha)+"', "+AccX+", "+AccY+", "+AccZ+", "+Accx2+", "+Accy2+", "+Accz2+", "+Accx3+", "+Accy3+", "+Accz3+", "+Accx4+", "+Accy4+", "+Accz4+")";
+        
         //System.out.println(SQL);
         CRUD.sendQuery(SQL);
     }

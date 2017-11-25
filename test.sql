@@ -2,7 +2,7 @@ create database if not exists Arduino;
 use Arduino;
 
 create table if not exists test(
-	#Fecha datetime,
+	Fecha datetime(3),
     AccX float,
     AccY float,
     AccZ float,
@@ -17,6 +17,6 @@ create table if not exists test(
     Accz4 float
 );
 
-drop schema Arduino;
+#drop schema Arduino;
 #describe test;
 SELECT * FROM test;
