@@ -6,6 +6,7 @@
 package test;
 
 import crud.CRUD;
+import test.Graficos;
 import com.panamahitek.ArduinoException;
 import com.panamahitek.PanamaHitek_Arduino;
 //import java.util.Date;
@@ -112,6 +113,7 @@ public class SerialTest {
     }
     
     public static void main(String[] args) throws Exception {
+            /*
             SerialTest main = new SerialTest();
             main.initialize();
             Thread t=new Thread() {
@@ -122,6 +124,9 @@ public class SerialTest {
                     }
             };
             t.start();
+            */
             System.out.println("Recibiendo");
+            Graficos a = new Graficos();
+            a.test();
     }
 }
