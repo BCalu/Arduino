@@ -127,6 +127,6 @@ public class SerialTest {
             */
             System.out.println("Recibiendo");
             Graficos a = new Graficos();
-            a.test();
+            a.PieChart();
     }
 }

@@ -8,7 +8,7 @@ import org.jfree.data.general.DefaultPieDataset;
 
 public class Graficos {
        
-    public void test(){
+    public void PieChart(){
         DefaultPieDataset pieDataset = new DefaultPieDataset();
         pieDataset.setValue("one", new Integer(10));
         pieDataset.setValue("two", new Integer(20));
