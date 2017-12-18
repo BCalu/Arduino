@@ -19,13 +19,15 @@ public class Arduino {
     private PanamaHitek_Arduino ARD = new PanamaHitek_Arduino();
     
     /* El puerto donde estara conectado el Arduino. */
-    private final String PORT_NAME = "COM3";
+    private final String PORT_NAME = "COM6";
     
     /* Cantidad de bits por segundo */
     private final int DATA_RATE = 9600;
     
     /* Sentencia SQL */
     private String sentencia;
+    
+    private final Grafico xy = new Grafico();
     
     /* Datos */
     private Date fecha;
@@ -34,65 +36,87 @@ public class Arduino {
             Accx4, Accy4, Accz4;
     private String line;
     private StringTokenizer tokens;
-    private int cont;
+    private int contador = 1;
     
     /* Instanciar evento receptor de bits (mensaje) */
     private jssc.SerialPortEventListener EVENT = new jssc.SerialPortEventListener() {
         @Override
         /* Que hara cuando reciba el mensaje */
         public void serialEvent(jssc.SerialPortEvent spe) {
+            if(getContador() == 1){
+                prepararGrafico();
+                setContador(contador+1);
+            }
             try {
                 if(ARD.isMessageAvailable()){
                     line = ARD.printMessage();
                     System.out.println(line);
-                    PrepareSqlString(line);
+                    tokenizar(line);
+                    actualizarGrafico();
+                    setContador(contador+1);
                 }
             } catch (SerialPortException | ArduinoException ex) {
                 Logger.getLogger(SerialTest.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     };
-
-    /* Tokeniza la linea recibida por el arduino y agrega a la BDD */
-    public void PrepareSqlString(String linea){
+    
+    public void prepararGrafico(){
+        xy.crearGraficoXY();
+        xy.mostrarGrafico();
+    }
+    
+    public void actualizarGrafico(){
+        xy.agregarASerie(xy.getAccx(), contador, getAccX());
+        xy.agregarASerie(xy.getAccx2(), contador, getAccx2());
+        xy.agregarASerie(xy.getAccx3(), contador, getAccx3());
+        xy.agregarASerie(xy.getAccx4(), contador, getAccx4());
+    }
+    
+    public void tokenizar(String linea){
+        int cont=1;
         setTokens(new StringTokenizer(linea, ","));
-        setCont(1);
         while (getTokens().hasMoreTokens()){
-            if(getCont() == 1)
+            if(cont == 1)
                 setAccX(Float.parseFloat(getTokens().nextToken()));
-            else if (getCont() == 2)
+            else if (cont == 2)
                 setAccY(Float.parseFloat(getTokens().nextToken()));
-            else if (getCont() == 3)
+            else if (cont == 3)
                 setAccZ(Float.parseFloat(getTokens().nextToken()));
-            else if (getCont() == 4)
+            else if (cont == 4)
                 setAccx2(Float.parseFloat(getTokens().nextToken()));
-            else if (getCont() == 5)
+            else if (cont == 5)
                 setAccy2(Float.parseFloat(getTokens().nextToken()));
-            else if (getCont() == 6)
+            else if (cont == 6)
                 setAccz2(Float.parseFloat(getTokens().nextToken()));
-            else if (getCont() == 7)
+            else if (cont == 7)
                 setAccx3(Float.parseFloat(getTokens().nextToken()));
-            else if (getCont() == 8)
+            else if (cont == 8)
                 setAccy3(Float.parseFloat(getTokens().nextToken()));
-            else if (getCont() == 9)
+            else if (cont == 9)
                 setAccz3(Float.parseFloat(getTokens().nextToken()));
-            else if (getCont() == 10)
+            else if (cont == 10)
                 setAccx4(Float.parseFloat(getTokens().nextToken()));
-            else if (getCont() == 11)
+            else if (cont == 11)
                 setAccy4(Float.parseFloat(getTokens().nextToken()));
-            else if (getCont() == 12)
+            else if (cont == 12)
                 setAccz4(Float.parseFloat(getTokens().nextToken()));
-            setCont(getCont() + 1);
+            cont++;
         }
         setFecha(new Date(System.currentTimeMillis()));
         //System.out.println(formato.format(fecha));
+        prepareSqlString();
+    }
+    
+    /* Prepara la sentencia SQL y agrega a la BDD */
+    public void prepareSqlString(){      
         setSQL("INSERT INTO test (Fecha, AccX, AccY, AccZ, accx2, accy2, accz2, accx3, accy3, accz3, accx4, accy4, accz4) "
                 + "VALUES ('" + getFormato().format(getFecha()) + "', " + getAccX() + ", " + getAccY() + ", " + getAccZ() + 
                 ", " + getAccx2() + ", " + getAccy2() + ", " + getAccz2() + ", " + getAccx3() + ", " + getAccy3() + ", " + 
                 getAccz3() + ", " + getAccx4() + ", " + getAccy4() + ", " + getAccz4() + ")");
-        
         //System.out.println(SQL);
         CRUD.sendQuery(getSQL());
+        System.out.println("INSERTADO");
     }
 
     /**
@@ -355,20 +379,6 @@ public class Arduino {
     }
 
     /**
-     * @return the cont
-     */
-    public int getCont() {
-        return cont;
-    }
-
-    /**
-     * @param cont the cont to set
-     */
-    public void setCont(int cont) {
-        this.cont = cont;
-    }
-
-    /**
      * @return the EVENT
      */
     public jssc.SerialPortEventListener getEVENT() {
@@ -380,5 +390,19 @@ public class Arduino {
      */
     public void setEVENT(jssc.SerialPortEventListener EVENT) {
         this.EVENT = EVENT;
+    }
+
+    /**
+     * @return the contador
+     */
+    public int getContador() {
+        return contador;
+    }
+
+    /**
+     * @param contador the contador to set
+     */
+    public void setContador(int contador) {
+        this.contador = contador;
     }
 }

@@ -9,10 +9,16 @@ public class Grafico {
     private ChartFrame frame;
     private final XYSeriesCollection coleccion = new XYSeriesCollection();
     private final XYSeries accx = new XYSeries("ACCX");
+    private final XYSeries accx2 = new XYSeries("ACCX2");
+    private final XYSeries accx3 = new XYSeries("ACCX3");
+    private final XYSeries accx4 = new XYSeries("ACCX4");
 
     public void crearGraficoXY(){
         this.getAccx().add(0, 0);                  //Para que comience desde el origen
         this.getColeccion().addSeries(this.getAccx());
+        this.getColeccion().addSeries(this.getAccx2());
+        this.getColeccion().addSeries(this.getAccx3());
+        this.getColeccion().addSeries(this.getAccx4());
         this.setChart(ChartFactory.createXYLineChart("Datos Arduino", "Tiempo", "Valor Dato", this.getColeccion()));
     }
     
@@ -22,8 +28,8 @@ public class Grafico {
         this.getFrame().setSize(800, 600);
     }
     
-    public void agregarASerie(int i, int valor){
-        this.getAccx().add(i, valor);
+    public void agregarASerie(XYSeries serie, float i, float valor){
+        serie.add(i, valor);
     }
 
     /**
@@ -66,5 +72,26 @@ public class Grafico {
      */
     public XYSeries getAccx() {
         return accx;
+    }
+
+    /**
+     * @return the accx2
+     */
+    public XYSeries getAccx2() {
+        return accx2;
+    }
+
+    /**
+     * @return the accx3
+     */
+    public XYSeries getAccx3() {
+        return accx3;
+    }
+
+    /**
+     * @return the accx4
+     */
+    public XYSeries getAccx4() {
+        return accx4;
     }
 }

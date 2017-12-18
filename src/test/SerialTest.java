@@ -16,20 +16,9 @@ public class SerialTest {
     
     public void initialize() throws ArduinoException, SerialException, InterruptedException, SerialPortException {
         //Realizar la conexion con Arduino en modo de lectura
-        CRUD.conectar();
+        //CRUD.conectar();
         ard.getARD().arduinoRX(ard.getPORT_NAME(), ard.getDATA_RATE(), ard.getEVENT());
-        
-        /*
-        xy.crearGraficoXY();
-        xy.mostrarGrafico();
-        espera();
-        xy.agregarASerie(1, 3);
-        espera();
-        xy.agregarASerie(2, 14);
-        espera();
-        xy.agregarASerie(3, -5);
-        espera();
-        */
+        //simulacion();
     }
     
     public static void main(String[] args) throws Exception {
@@ -49,6 +38,18 @@ public class SerialTest {
     }
     
     public void espera() throws InterruptedException{
-        Thread.sleep(2000);
+        Thread.sleep(500);
+    }
+    
+    public void simulacion() throws InterruptedException{
+        float contador=0;
+        xy.crearGraficoXY();
+        xy.mostrarGrafico();
+        espera();
+        while(true){
+            xy.agregarASerie(xy.getAccx(), contador, (float) (Math.random() * 100));
+            espera();    
+            contador++;
+        }
     }
 }
