@@ -10,6 +10,7 @@ import jssc.SerialPortException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class Arduino {
     /* Instanciar Arduino */
@@ -40,15 +41,16 @@ public class Arduino {
         @Override
         /* Que hara cuando reciba el mensaje */
         public void serialEvent(jssc.SerialPortEvent spe) {
+            /*
             if(getContador() == 1){
                 prepararGrafico();
                 setContador(contador+1);
             }
+            */
             try {
                 if(ARD.isMessageAvailable()){
                     line = ARD.printMessage();
                     System.out.println(line);
-                    tokenizar(line);
                     actualizarGrafico();
                     setContador(contador+1);
                 }
@@ -65,10 +67,20 @@ public class Arduino {
     
     //ARREGLAR
     public void actualizarGrafico(){
-        xy.agregarASerie(xy.getAccx(), contador, getAccX());
-        xy.agregarASerie(xy.getAccx2(), contador, getAccx2());
-        xy.agregarASerie(xy.getAccx3(), contador, getAccx3());
-        xy.agregarASerie(xy.getAccx4(), contador, getAccx4());
+        tokenizar(getLine());
+        if(xy.getSeries().contains(xy.getAccx())){
+            System.out.println("TIENE ACCX");
+            getXy().agregarASerie(getXy().getAccx(), getContador(), getAccX());
+        }
+        if(xy.getSeries().contains(xy.getAccx2())){
+            System.out.println("TIENE ACCX2");
+        }
+        if(xy.getSeries().contains(xy.getAccx3())){
+            System.out.println("TIENE ACCX3");
+        }
+        if(xy.getSeries().contains(xy.getAccx4())){
+            System.out.println("TIENE ACCX4");
+        }
     }
     
     public void tokenizar(String linea){
@@ -103,7 +115,7 @@ public class Arduino {
         }
         setFecha(new Date(System.currentTimeMillis()));
         //System.out.println(formato.format(fecha));
-        prepareSqlString();
+        //prepareSqlString();
     }
     
     /* Prepara la sentencia SQL y agrega a la BDD */
@@ -114,7 +126,7 @@ public class Arduino {
                 getAccz3() + ", " + getAccx4() + ", " + getAccy4() + ", " + getAccz4() + ")");
         //System.out.println(SQL);
         CRUD.sendQuery(getSQL());
-        System.out.println("INSERTADO");
+        //System.out.println("INSERTADO");
     }
 
     /**

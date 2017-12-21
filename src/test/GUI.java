@@ -27,7 +27,7 @@ public class GUI extends javax.swing.JFrame {
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<String>();
         jLabel2 = new javax.swing.JLabel();
         jRadioButton_accx = new javax.swing.JRadioButton();
         jRadioButton_accx2 = new javax.swing.JRadioButton();
@@ -47,7 +47,7 @@ public class GUI extends javax.swing.JFrame {
         jLabel1.setText("Eliga el n° de puerto COM");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, 20));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "12", "13" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "12", "13" }));
         getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -98,7 +98,7 @@ public class GUI extends javax.swing.JFrame {
         if(jRadioButton_accx4.isSelected()){
             ard.getXy().getSeries().add(ard.getXy().getAccx4());
         }
-        //ard.prepararGrafico();
+        ard.prepararGrafico();
         try {
             ard.getARD().arduinoRX(ard.getPORT_NAME(), ard.getDATA_RATE(), ard.getEVENT());
         } catch (ArduinoException | SerialPortException ex) {

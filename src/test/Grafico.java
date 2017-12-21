@@ -20,7 +20,7 @@ public class Grafico {
         if(!series.isEmpty()){
             for(XYSeries x : getSeries()){
                 getColeccion().addSeries(x);
-                System.out.println("AGREGADO");
+                //System.out.println("AGREGADO");
             }
         }
         this.setChart(ChartFactory.createXYLineChart("Datos Arduino", "Tiempo", "Valor Dato", this.getColeccion()));
