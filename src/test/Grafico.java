@@ -1,5 +1,6 @@
 package test;
 
+import java.util.ArrayList;
 import org.jfree.chart.*;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -8,17 +9,20 @@ public class Grafico {
     private JFreeChart chart;
     private ChartFrame frame;
     private final XYSeriesCollection coleccion = new XYSeriesCollection();
+    private final ArrayList<XYSeries> series = new ArrayList<>();
     private final XYSeries accx = new XYSeries("ACCX");
     private final XYSeries accx2 = new XYSeries("ACCX2");
     private final XYSeries accx3 = new XYSeries("ACCX3");
     private final XYSeries accx4 = new XYSeries("ACCX4");
 
     public void crearGraficoXY(){
-        this.getAccx().add(0, 0);                  //Para que comience desde el origen
-        this.getColeccion().addSeries(this.getAccx());
-        this.getColeccion().addSeries(this.getAccx2());
-        this.getColeccion().addSeries(this.getAccx3());
-        this.getColeccion().addSeries(this.getAccx4());
+        //Agregar las series a la coleccion
+        if(!series.isEmpty()){
+            for(XYSeries x : getSeries()){
+                getColeccion().addSeries(x);
+                System.out.println("AGREGADO");
+            }
+        }
         this.setChart(ChartFactory.createXYLineChart("Datos Arduino", "Tiempo", "Valor Dato", this.getColeccion()));
     }
     
@@ -31,7 +35,13 @@ public class Grafico {
     public void agregarASerie(XYSeries serie, float i, float valor){
         serie.add(i, valor);
     }
-
+    
+    /*
+    public void vaciarLista(){
+        this.getSeries().clear();
+    }
+    */
+    
     /**
      * @return the chart
      */
@@ -65,6 +75,13 @@ public class Grafico {
      */
     public XYSeriesCollection getColeccion() {
         return coleccion;
+    }
+
+    /**
+     * @return the series
+     */
+    public ArrayList<XYSeries> getSeries() {
+        return series;
     }
 
     /**

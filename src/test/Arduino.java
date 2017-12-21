@@ -1,14 +1,11 @@
 package test;
 
 import crud.CRUD;
-//import test.Graficos;
 import com.panamahitek.ArduinoException;
 import com.panamahitek.PanamaHitek_Arduino;
-//import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//import javax.sql.rowset.serial.SerialException;
 import jssc.SerialPortException;
 import java.sql.Date;
 import java.text.DateFormat;
@@ -19,7 +16,7 @@ public class Arduino {
     private PanamaHitek_Arduino ARD = new PanamaHitek_Arduino();
     
     /* El puerto donde estara conectado el Arduino. */
-    private final String PORT_NAME = "COM6";
+    private String PORT_NAME;
     
     /* Cantidad de bits por segundo */
     private final int DATA_RATE = 9600;
@@ -62,10 +59,11 @@ public class Arduino {
     };
     
     public void prepararGrafico(){
-        xy.crearGraficoXY();
-        xy.mostrarGrafico();
+        getXy().crearGraficoXY();
+        getXy().mostrarGrafico();
     }
     
+    //ARREGLAR
     public void actualizarGrafico(){
         xy.agregarASerie(xy.getAccx(), contador, getAccX());
         xy.agregarASerie(xy.getAccx2(), contador, getAccx2());
@@ -139,6 +137,13 @@ public class Arduino {
     public String getPORT_NAME() {
         return PORT_NAME;
     }
+    
+    /**
+     * @param PORT_NAME the PORT_NAME to set
+     */
+    public void setPORT_NAME(String PORT_NAME) {
+        this.PORT_NAME = PORT_NAME;
+    }
 
     /**
      * @return the DATA_RATE
@@ -151,7 +156,7 @@ public class Arduino {
      * @return the SQL
      */
     public String getSQL() {
-        return sentencia;
+        return getSentencia();
     }
 
     /**
@@ -404,5 +409,19 @@ public class Arduino {
      */
     public void setContador(int contador) {
         this.contador = contador;
+    }
+
+    /**
+     * @return the sentencia
+     */
+    public String getSentencia() {
+        return sentencia;
+    }
+
+    /**
+     * @return the xy
+     */
+    public Grafico getXy() {
+        return xy;
     }
 }

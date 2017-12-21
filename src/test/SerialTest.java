@@ -1,24 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package test;
 
-import com.panamahitek.ArduinoException;
 import crud.CRUD;
+import com.panamahitek.ArduinoException;
 import javax.sql.rowset.serial.SerialException;
 import jssc.SerialPortException;
+import org.jfree.data.xy.XYSeries;
 
 public class SerialTest {
     Grafico xy = new Grafico();
-    Arduino ard = new Arduino();
+    Arduino ard = new Arduino(); 
     
+    /*
     public void initialize() throws ArduinoException, SerialException, InterruptedException, SerialPortException {
         //Realizar la conexion con Arduino en modo de lectura
-        //CRUD.conectar();
-        ard.getARD().arduinoRX(ard.getPORT_NAME(), ard.getDATA_RATE(), ard.getEVENT());
-        //simulacion();
+        xy.agregarASerie(xy.getAccx(), 0, 2);
+        xy.agregarASerie(xy.getAccx(), 1, 3);
+        xy.agregarASerie(xy.getAccx(), 2, 4);
+        xy.agregarASerie(xy.getAccx(), 3, 5);
+        xy.agregarASerie(xy.getAccx2(), 0, 0);
+        xy.getSeries().add(xy.getAccx());
+        xy.getSeries().add(xy.getAccx2());
+        xy.crearGraficoXY();
+        for(XYSeries x : xy.getSeries()){
+            System.out.println(x.getItemCount());
+        }
+        xy.vaciarLista();
+        if(xy.getSeries().isEmpty()){
+            System.out.println("SERIES ESTA VACIA POR LA CHUCHA");
+        }
     }
     
     public static void main(String[] args) throws Exception {
@@ -34,6 +43,7 @@ public class SerialTest {
             };
             t.start();
             */
+/*
             System.out.println("Recibiendo");
     }
     
@@ -41,6 +51,7 @@ public class SerialTest {
         Thread.sleep(500);
     }
     
+    /*
     public void simulacion() throws InterruptedException{
         float contador=0;
         xy.crearGraficoXY();
@@ -52,4 +63,5 @@ public class SerialTest {
             contador++;
         }
     }
+    */
 }
