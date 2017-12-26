@@ -65,31 +65,69 @@ public class Arduino {
         getXy().mostrarGrafico();
     }
     
-    //ARREGLAR
+    //Actualiza los valores de las variables dentro del grafico
     public void actualizarGrafico(){
         tokenizar(getLine());
+        
+        //ACCX's
         if(xy.getSeries().contains(xy.getAccx())){
-            //System.out.println("TIENE ACCX");
             getXy().agregarASerie(getXy().getAccx(), getContador(), getAccX());
+            //System.out.println("ACCX: "+getAccX());
         }
         if(xy.getSeries().contains(xy.getAccx2())){
-            //System.out.println("TIENE ACCX2");
             getXy().agregarASerie(getXy().getAccx2(), getContador(), getAccx2());
         }
         if(xy.getSeries().contains(xy.getAccx3())){
-            //System.out.println("TIENE ACCX3");
             getXy().agregarASerie(getXy().getAccx3(), getContador(), getAccx3());
         }
         if(xy.getSeries().contains(xy.getAccx4())){
-            //System.out.println("TIENE ACCX4");
             getXy().agregarASerie(getXy().getAccx4(), getContador(), getAccx4());
+        }
+        
+        //ACCY's
+        if(xy.getSeries().contains(xy.getAccy())){
+            getXy().agregarASerie(getXy().getAccy(), getContador(), getAccY());
+            //System.out.println("ACCY: "+getAccY());
+        }
+        if(xy.getSeries().contains(xy.getAccy2())){
+            getXy().agregarASerie(getXy().getAccy2(), getContador(), getAccy2());
+        }
+        if(xy.getSeries().contains(xy.getAccy3())){
+            getXy().agregarASerie(getXy().getAccy3(), getContador(), getAccy3());
+        }
+        if(xy.getSeries().contains(xy.getAccy4())){
+            getXy().agregarASerie(getXy().getAccy4(), getContador(), getAccy4());
+        }
+        
+        //ACCZ's
+        if(xy.getSeries().contains(xy.getAccz())){
+            getXy().agregarASerie(getXy().getAccz(), getContador(), getAccZ());
+            //System.out.println("ACCZ: "+getAccZ());
+        }
+        if(xy.getSeries().contains(xy.getAccz2())){
+            getXy().agregarASerie(getXy().getAccz2(), getContador(), getAccz2());
+        }
+        if(xy.getSeries().contains(xy.getAccz3())){
+            getXy().agregarASerie(getXy().getAccz3(), getContador(), getAccz3());
+        }
+        if(xy.getSeries().contains(xy.getAccz4())){
+            getXy().agregarASerie(getXy().getAccz4(), getContador(), getAccz4());
         }
     }
     
     public void tokenizar(String linea){
         int cont=1;
         setTokens(new StringTokenizer(linea, ","));
+
+        if(getTokens().countTokens() != 12)
+            return;
+        
         while (getTokens().hasMoreTokens()){
+            /*
+            if(getTokens().countTokens() != 12 ){
+                System.out.println(getTokens().countTokens());
+            }
+            */
             if(cont == 1)
                 setAccX(Float.parseFloat(getTokens().nextToken()));
             else if (cont == 2)

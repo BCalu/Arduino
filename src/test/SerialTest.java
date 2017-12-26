@@ -12,28 +12,13 @@ public class SerialTest {
     
     /*
     public void initialize() throws ArduinoException, SerialException, InterruptedException, SerialPortException {
-        //Realizar la conexion con Arduino en modo de lectura
-        xy.agregarASerie(xy.getAccx(), 0, 2);
-        xy.agregarASerie(xy.getAccx(), 1, 3);
-        xy.agregarASerie(xy.getAccx(), 2, 4);
-        xy.agregarASerie(xy.getAccx(), 3, 5);
-        xy.agregarASerie(xy.getAccx2(), 0, 0);
-        xy.getSeries().add(xy.getAccx());
-        xy.getSeries().add(xy.getAccx2());
-        xy.crearGraficoXY();
-        for(XYSeries x : xy.getSeries()){
-            System.out.println(x.getItemCount());
-        }
-        xy.vaciarLista();
-        if(xy.getSeries().isEmpty()){
-            System.out.println("SERIES ESTA VACIA POR LA CHUCHA");
-        }
+        ard.getARD().arduinoRX(ard.getPORT_NAME(), ard.getDATA_RATE(), ard.getEVENT());
     }
     
     public static void main(String[] args) throws Exception {
             SerialTest main = new SerialTest();
             main.initialize();
-            /*
+            
             Thread t=new Thread() {
                     public void run() {
                             //the following line will keep this app alive for 1000 seconds,
@@ -42,11 +27,11 @@ public class SerialTest {
                     }
             };
             t.start();
-            */
-/*
+            
             System.out.println("Recibiendo");
     }
-    
+    */
+    /*
     public void espera() throws InterruptedException{
         Thread.sleep(500);
     }

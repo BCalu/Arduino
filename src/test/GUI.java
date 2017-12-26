@@ -24,16 +24,23 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        buttonGroup2 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jRadioButton_accx = new javax.swing.JRadioButton();
-        jRadioButton_accx2 = new javax.swing.JRadioButton();
-        jRadioButton_accx3 = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
-        jRadioButton_accx4 = new javax.swing.JRadioButton();
+        jCheckBox_accx = new javax.swing.JCheckBox();
+        jCheckBox_accx2 = new javax.swing.JCheckBox();
+        jCheckBox_accx3 = new javax.swing.JCheckBox();
+        jCheckBox_accx4 = new javax.swing.JCheckBox();
+        jCheckBox_accy = new javax.swing.JCheckBox();
+        jCheckBox_accy2 = new javax.swing.JCheckBox();
+        jCheckBox_accy3 = new javax.swing.JCheckBox();
+        jCheckBox_accy4 = new javax.swing.JCheckBox();
+        jCheckBox_accz = new javax.swing.JCheckBox();
+        jCheckBox_accz2 = new javax.swing.JCheckBox();
+        jCheckBox_accz3 = new javax.swing.JCheckBox();
+        jCheckBox_accz4 = new javax.swing.JCheckBox();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú");
@@ -52,19 +59,7 @@ public class GUI extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Variables a graficar");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
-
-        jRadioButton_accx.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jRadioButton_accx.setText("Accx");
-        getContentPane().add(jRadioButton_accx, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, -1, -1));
-
-        jRadioButton_accx2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jRadioButton_accx2.setText("Accx2");
-        getContentPane().add(jRadioButton_accx2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
-
-        jRadioButton_accx3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jRadioButton_accx3.setText("Accx3");
-        getContentPane().add(jRadioButton_accx3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, -1, -1));
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton1.setText("Graficar");
@@ -73,11 +68,59 @@ public class GUI extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 230, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, -1, -1));
 
-        jRadioButton_accx4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jRadioButton_accx4.setText("Accx4");
-        getContentPane().add(jRadioButton_accx4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, -1, -1));
+        jCheckBox_accx.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox_accx.setText("Accx");
+        getContentPane().add(jCheckBox_accx, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, -1, -1));
+
+        jCheckBox_accx2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox_accx2.setText("Accx2");
+        getContentPane().add(jCheckBox_accx2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, -1, -1));
+
+        jCheckBox_accx3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox_accx3.setText("Accx3");
+        getContentPane().add(jCheckBox_accx3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, -1, -1));
+
+        jCheckBox_accx4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox_accx4.setText("Accx4");
+        getContentPane().add(jCheckBox_accx4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
+
+        jCheckBox_accy.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox_accy.setText("Accy");
+        getContentPane().add(jCheckBox_accy, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, -1, -1));
+
+        jCheckBox_accy2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox_accy2.setText("Accy2");
+        getContentPane().add(jCheckBox_accy2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, -1, -1));
+
+        jCheckBox_accy3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox_accy3.setText("Accy3");
+        getContentPane().add(jCheckBox_accy3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, -1, -1));
+
+        jCheckBox_accy4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox_accy4.setText("Accy4");
+        getContentPane().add(jCheckBox_accy4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 190, -1, -1));
+
+        jCheckBox_accz.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox_accz.setText("Accz");
+        getContentPane().add(jCheckBox_accz, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, -1, -1));
+
+        jCheckBox_accz2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox_accz2.setText("Accz2");
+        getContentPane().add(jCheckBox_accz2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, -1, -1));
+
+        jCheckBox_accz3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox_accz3.setText("Accz3");
+        getContentPane().add(jCheckBox_accz3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 160, -1, -1));
+
+        jCheckBox_accz4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox_accz4.setText("Accz4");
+        getContentPane().add(jCheckBox_accz4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, -1, -1));
+
+        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton2.setText("Detener");
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 240, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -86,17 +129,41 @@ public class GUI extends javax.swing.JFrame {
         Arduino ard = new Arduino();
         ard.setPORT_NAME("COM"+(String) jComboBox1.getSelectedItem());
 
-        if(jRadioButton_accx.isSelected()){
+        if(jCheckBox_accx.isSelected()){
             ard.getXy().getSeries().add(ard.getXy().getAccx());
         }
-        if(jRadioButton_accx2.isSelected()){
+        if(jCheckBox_accx2.isSelected()){
             ard.getXy().getSeries().add(ard.getXy().getAccx2());
         }
-        if(jRadioButton_accx3.isSelected()){
+        if(jCheckBox_accx3.isSelected()){
             ard.getXy().getSeries().add(ard.getXy().getAccx3());
         }
-        if(jRadioButton_accx4.isSelected()){
+        if(jCheckBox_accx4.isSelected()){
             ard.getXy().getSeries().add(ard.getXy().getAccx4());
+        }
+        if(jCheckBox_accy.isSelected()){
+            ard.getXy().getSeries().add(ard.getXy().getAccy());
+        }
+        if(jCheckBox_accy2.isSelected()){
+            ard.getXy().getSeries().add(ard.getXy().getAccy2());
+        }
+        if(jCheckBox_accy3.isSelected()){
+            ard.getXy().getSeries().add(ard.getXy().getAccy3());
+        }
+        if(jCheckBox_accy4.isSelected()){
+            ard.getXy().getSeries().add(ard.getXy().getAccy4());
+        }
+        if(jCheckBox_accz.isSelected()){
+            ard.getXy().getSeries().add(ard.getXy().getAccz());
+        }
+        if(jCheckBox_accz2.isSelected()){
+            ard.getXy().getSeries().add(ard.getXy().getAccz2());
+        }
+        if(jCheckBox_accz3.isSelected()){
+            ard.getXy().getSeries().add(ard.getXy().getAccz3());
+        }
+        if(jCheckBox_accz4.isSelected()){
+            ard.getXy().getSeries().add(ard.getXy().getAccz4());
         }
         ard.prepararGrafico();
         try {
@@ -142,15 +209,22 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JCheckBox jCheckBox_accx;
+    private javax.swing.JCheckBox jCheckBox_accx2;
+    private javax.swing.JCheckBox jCheckBox_accx3;
+    private javax.swing.JCheckBox jCheckBox_accx4;
+    private javax.swing.JCheckBox jCheckBox_accy;
+    private javax.swing.JCheckBox jCheckBox_accy2;
+    private javax.swing.JCheckBox jCheckBox_accy3;
+    private javax.swing.JCheckBox jCheckBox_accy4;
+    private javax.swing.JCheckBox jCheckBox_accz;
+    private javax.swing.JCheckBox jCheckBox_accz2;
+    private javax.swing.JCheckBox jCheckBox_accz3;
+    private javax.swing.JCheckBox jCheckBox_accz4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JRadioButton jRadioButton_accx;
-    private javax.swing.JRadioButton jRadioButton_accx2;
-    private javax.swing.JRadioButton jRadioButton_accx3;
-    private javax.swing.JRadioButton jRadioButton_accx4;
     // End of variables declaration//GEN-END:variables
 }
