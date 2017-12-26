@@ -28,8 +28,10 @@ public class Grafico {
     
     public void mostrarGrafico(){
         this.setFrame(new ChartFrame("Resultados", this.getChart()));
-        this.getFrame().setVisible(true);
         this.getFrame().setSize(800, 600);
+        this.getFrame().setLocationRelativeTo(null);
+        this.getFrame().setVisible(true);
+        
     }
     
     public void agregarASerie(XYSeries serie, float i, float valor){

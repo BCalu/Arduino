@@ -69,17 +69,20 @@ public class Arduino {
     public void actualizarGrafico(){
         tokenizar(getLine());
         if(xy.getSeries().contains(xy.getAccx())){
-            System.out.println("TIENE ACCX");
+            //System.out.println("TIENE ACCX");
             getXy().agregarASerie(getXy().getAccx(), getContador(), getAccX());
         }
         if(xy.getSeries().contains(xy.getAccx2())){
-            System.out.println("TIENE ACCX2");
+            //System.out.println("TIENE ACCX2");
+            getXy().agregarASerie(getXy().getAccx2(), getContador(), getAccx2());
         }
         if(xy.getSeries().contains(xy.getAccx3())){
-            System.out.println("TIENE ACCX3");
+            //System.out.println("TIENE ACCX3");
+            getXy().agregarASerie(getXy().getAccx3(), getContador(), getAccx3());
         }
         if(xy.getSeries().contains(xy.getAccx4())){
-            System.out.println("TIENE ACCX4");
+            //System.out.println("TIENE ACCX4");
+            getXy().agregarASerie(getXy().getAccx4(), getContador(), getAccx4());
         }
     }
     
@@ -115,7 +118,7 @@ public class Arduino {
         }
         setFecha(new Date(System.currentTimeMillis()));
         //System.out.println(formato.format(fecha));
-        //prepareSqlString();
+        prepareSqlString();
     }
     
     /* Prepara la sentencia SQL y agrega a la BDD */
