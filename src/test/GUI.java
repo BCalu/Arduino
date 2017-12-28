@@ -1,12 +1,24 @@
 package test;
 
 import com.panamahitek.ArduinoException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import jssc.SerialPortException;
 
 public class GUI extends javax.swing.JFrame {
     public Arduino ard;
+    public Date fechaInicial;
+    public Date fechaFinal;
     
     /**
      * Creates new form GUI
@@ -26,6 +38,13 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFrame1 = new javax.swing.JFrame();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jButton_Exportar = new javax.swing.JButton();
+        jComboBox_Registro1 = new javax.swing.JComboBox<>();
+        jComboBox_Registro2 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -35,6 +54,38 @@ public class GUI extends javax.swing.JFrame {
         jCheckBox2 = new javax.swing.JCheckBox();
         jCheckBox3 = new javax.swing.JCheckBox();
         jCheckBox4 = new javax.swing.JCheckBox();
+        jButton_ExportarDatos = new javax.swing.JButton();
+
+        jFrame1.setMaximumSize(new java.awt.Dimension(400, 300));
+        jFrame1.setMinimumSize(new java.awt.Dimension(400, 300));
+        jFrame1.setPreferredSize(new java.awt.Dimension(400, 300));
+        jFrame1.setSize(new java.awt.Dimension(400, 300));
+        jFrame1.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("Registro 1");
+        jFrame1.getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel4.setText("Seleccione los registros");
+        jFrame1.getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, -1, -1));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel5.setText("Registro 2");
+        jFrame1.getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
+
+        jButton_Exportar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton_Exportar.setText("Exportar");
+        jButton_Exportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_ExportarActionPerformed(evt);
+            }
+        });
+        jFrame1.getContentPane().add(jButton_Exportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, -1, -1));
+
+        jFrame1.getContentPane().add(jComboBox_Registro1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 220, -1));
+
+        jFrame1.getContentPane().add(jComboBox_Registro2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 220, -1));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú");
@@ -89,6 +140,15 @@ public class GUI extends javax.swing.JFrame {
         jCheckBox4.setText("Acc4");
         getContentPane().add(jCheckBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, -1, -1));
 
+        jButton_ExportarDatos.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton_ExportarDatos.setText("Exportar Datos");
+        jButton_ExportarDatos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_ExportarDatosActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton_ExportarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -139,6 +199,48 @@ public class GUI extends javax.swing.JFrame {
         jCheckBox4.setEnabled(true);
     }//GEN-LAST:event_jButton_DetenerActionPerformed
 
+    private void jButton_ExportarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ExportarDatosActionPerformed
+        ResultSet valores = crud.CRUD.getQuery("SELECT Fecha FROM test");
+        String fecha;
+        try {
+            while(valores.next()){
+                fecha = valores.getString("Fecha");
+                jComboBox_Registro1.addItem(fecha);
+                jComboBox_Registro2.addItem(fecha);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jFrame1.setVisible(true);
+        jFrame1.setLocationRelativeTo(null);
+        this.setVisible(false);
+    }//GEN-LAST:event_jButton_ExportarDatosActionPerformed
+
+    private void jButton_ExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ExportarActionPerformed
+        fechaInicial = (Date) jComboBox_Registro1.getSelectedItem();
+        fechaFinal = (Date) jComboBox_Registro2.getSelectedItem();
+        
+        if(compararFechas(fechaInicial, fechaFinal) == true){
+            //Pasar la historia a txt
+            System.out.println("PASANDO LA HISTORIA A TXT");
+        }
+        else{
+            System.out.println("FECHA INVALIDA");
+        }
+    }//GEN-LAST:event_jButton_ExportarActionPerformed
+
+    
+    /**
+     * Comprueba si la fecha final es antes, despues o igual a la fecha inicial
+     * 
+     * @param f1 fecha inicial
+     * @param f2 fecha final
+     * @return verdadero si final es despues de inicial, false de caso contrario
+     */
+    public boolean compararFechas(Date f1, Date f2){
+        return f2.after(f1);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -176,13 +278,21 @@ public class GUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_Detener;
+    private javax.swing.JButton jButton_Exportar;
+    private javax.swing.JButton jButton_ExportarDatos;
     private javax.swing.JButton jButton_Graficar;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox_Registro1;
+    private javax.swing.JComboBox<String> jComboBox_Registro2;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     // End of variables declaration//GEN-END:variables
 }
