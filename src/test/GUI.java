@@ -84,17 +84,14 @@ public class GUI extends javax.swing.JFrame {
         Arduino ard = new Arduino();
         ard.setPORT_NAME("COM"+(String) jComboBox1.getSelectedItem());
 
-        if(jCheckBox_accx.isSelected()){
+        if(jCheckBox_accx.isSelected())
             ard.getXy().getSeries().add(ard.getXy().getAccx());
-        }
 
-        if(jCheckBox_accy.isSelected()){
+        if(jCheckBox_accy.isSelected())
             ard.getXy().getSeries().add(ard.getXy().getAccy());
-        }
 
-        if(jCheckBox_accz.isSelected()){
+        if(jCheckBox_accz.isSelected())
             ard.getXy().getSeries().add(ard.getXy().getAccz());
-        }
 
         ard.prepararGrafico();
         try {

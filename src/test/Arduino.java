@@ -42,12 +42,6 @@ public class Arduino {
         @Override
         /* Que hara cuando reciba el mensaje */
         public void serialEvent(jssc.SerialPortEvent spe) {
-            /*
-            if(getContador() == 1){
-                prepararGrafico();
-                setContador(contador+1);
-            }
-            */
             try {
                 if(ARD.isMessageAvailable()){
                     line = ARD.printMessage();
@@ -72,8 +66,8 @@ public class Arduino {
         
         //ACCX's
         if(xy.getSeries().contains(xy.getAccx())){
-            getXy().agregarASerie(getXy().getAccx(), getContador(), getAccX());
-            //System.out.println("ACCX: "+getAccX());
+            getXy().agregarASerie(getXy().getAccx(), getContador(), getVecx());
+            System.out.println("VECTOR ACCX: "+getVecx());
         }
         /*
         if(xy.getSeries().contains(xy.getAccx2())){
@@ -89,8 +83,8 @@ public class Arduino {
         
         //ACCY's
         if(xy.getSeries().contains(xy.getAccy())){
-            getXy().agregarASerie(getXy().getAccy(), getContador(), getAccY());
-            //System.out.println("ACCY: "+getAccY());
+            getXy().agregarASerie(getXy().getAccy(), getContador(), getVecy());
+            System.out.println("VECTOR ACCY: "+getVecy());
         }
         /*
         if(xy.getSeries().contains(xy.getAccy2())){
@@ -106,8 +100,8 @@ public class Arduino {
         
         //ACCZ's
         if(xy.getSeries().contains(xy.getAccz())){
-            getXy().agregarASerie(getXy().getAccz(), getContador(), getAccZ());
-            //System.out.println("ACCZ: "+getAccZ());
+            getXy().agregarASerie(getXy().getAccz(), getContador(), getVecz());
+            System.out.println("VECTOR ACCY: "+getVecz());
         }
         /*
         if(xy.getSeries().contains(xy.getAccz2())){
@@ -131,19 +125,19 @@ public class Arduino {
     }
     
     public void calcularVectorY(){
-        float coordenadaY1 = (float) Math.sqrt(Math.pow(getAccY(), 2));
-        float coordenadaY2 = (float) Math.sqrt(Math.pow(getAccy2(), 2));
-        float coordenadaY3 = (float) Math.sqrt(Math.pow(getAccy3(), 2));
-        float coordenadaY4 = (float) Math.sqrt(Math.pow(getAccy4(), 2));
-        setVecy(coordenadaY1 + coordenadaY2 + coordenadaY3 + coordenadaY4);       
+        float coordenadaY1 = (float) (Math.pow(getAccY(), 2));
+        float coordenadaY2 = (float) (Math.pow(getAccy2(), 2));
+        float coordenadaY3 = (float) (Math.pow(getAccy3(), 2));
+        float coordenadaY4 = (float) (Math.pow(getAccy4(), 2));
+        setVecy((float) Math.sqrt(coordenadaY1 + coordenadaY2 + coordenadaY3 + coordenadaY4));
     }
     
     public void calcularVectorZ(){
-        float coordenadaZ1 = (float) Math.sqrt(Math.pow(getAccZ(), 2));
-        float coordenadaZ2 = (float) Math.sqrt(Math.pow(getAccz2(), 2));
-        float coordenadaZ3 = (float) Math.sqrt(Math.pow(getAccz3(), 2));
-        float coordenadaZ4 = (float) Math.sqrt(Math.pow(getAccz4(), 2));
-        setVecz(coordenadaZ1 + coordenadaZ2 + coordenadaZ3 + coordenadaZ4);       
+        float coordenadaZ1 = (float) (Math.pow(getAccZ(), 2));
+        float coordenadaZ2 = (float) (Math.pow(getAccz2(), 2));
+        float coordenadaZ3 = (float) (Math.pow(getAccz3(), 2));
+        float coordenadaZ4 = (float) (Math.pow(getAccz4(), 2));
+        setVecz((float) Math.sqrt(coordenadaZ1 + coordenadaZ2 + coordenadaZ3 + coordenadaZ4));
     }
     
     public void calcularVectores(){
@@ -189,6 +183,7 @@ public class Arduino {
         }
         setFecha(new Date(System.currentTimeMillis()));
         //System.out.println(formato.format(fecha));
+        calcularVectores();
         prepareSqlString();
     }
     
