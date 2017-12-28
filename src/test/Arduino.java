@@ -32,6 +32,7 @@ public class Arduino {
     private final DateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     private float AccX, AccY, AccZ, Accx2, Accy2, Accz2, Accx3, Accy3, Accz3,
             Accx4, Accy4, Accz4;
+    private float vecx, vecy, vecz;
     private String line;
     private StringTokenizer tokens;
     private int contador = 1;
@@ -65,7 +66,7 @@ public class Arduino {
         getXy().mostrarGrafico();
     }
     
-    //Actualiza los valores de las variables dentro del grafico
+    /* Actualiza los valores de las variables dentro del grafico */
     public void actualizarGrafico(){
         tokenizar(getLine());
         
@@ -74,6 +75,7 @@ public class Arduino {
             getXy().agregarASerie(getXy().getAccx(), getContador(), getAccX());
             //System.out.println("ACCX: "+getAccX());
         }
+        /*
         if(xy.getSeries().contains(xy.getAccx2())){
             getXy().agregarASerie(getXy().getAccx2(), getContador(), getAccx2());
         }
@@ -83,12 +85,14 @@ public class Arduino {
         if(xy.getSeries().contains(xy.getAccx4())){
             getXy().agregarASerie(getXy().getAccx4(), getContador(), getAccx4());
         }
+        */
         
         //ACCY's
         if(xy.getSeries().contains(xy.getAccy())){
             getXy().agregarASerie(getXy().getAccy(), getContador(), getAccY());
             //System.out.println("ACCY: "+getAccY());
         }
+        /*
         if(xy.getSeries().contains(xy.getAccy2())){
             getXy().agregarASerie(getXy().getAccy2(), getContador(), getAccy2());
         }
@@ -98,12 +102,14 @@ public class Arduino {
         if(xy.getSeries().contains(xy.getAccy4())){
             getXy().agregarASerie(getXy().getAccy4(), getContador(), getAccy4());
         }
+        */
         
         //ACCZ's
         if(xy.getSeries().contains(xy.getAccz())){
             getXy().agregarASerie(getXy().getAccz(), getContador(), getAccZ());
             //System.out.println("ACCZ: "+getAccZ());
         }
+        /*
         if(xy.getSeries().contains(xy.getAccz2())){
             getXy().agregarASerie(getXy().getAccz2(), getContador(), getAccz2());
         }
@@ -113,8 +119,40 @@ public class Arduino {
         if(xy.getSeries().contains(xy.getAccz4())){
             getXy().agregarASerie(getXy().getAccz4(), getContador(), getAccz4());
         }
+        */
     }
     
+    public void calcularVectorX(){
+        float coordenadaX1 = (float) Math.pow(getAccX(), 2);
+        float coordenadaX2 = (float) Math.pow(getAccx2(), 2);
+        float coordenadaX3 = (float) Math.pow(getAccx3(), 2);
+        float coordenadaX4 = (float) Math.pow(getAccx4(), 2);
+        setVecx((float) Math.sqrt(coordenadaX1 + coordenadaX2 + coordenadaX3 + coordenadaX4));       
+    }
+    
+    public void calcularVectorY(){
+        float coordenadaY1 = (float) Math.sqrt(Math.pow(getAccY(), 2));
+        float coordenadaY2 = (float) Math.sqrt(Math.pow(getAccy2(), 2));
+        float coordenadaY3 = (float) Math.sqrt(Math.pow(getAccy3(), 2));
+        float coordenadaY4 = (float) Math.sqrt(Math.pow(getAccy4(), 2));
+        setVecy(coordenadaY1 + coordenadaY2 + coordenadaY3 + coordenadaY4);       
+    }
+    
+    public void calcularVectorZ(){
+        float coordenadaZ1 = (float) Math.sqrt(Math.pow(getAccZ(), 2));
+        float coordenadaZ2 = (float) Math.sqrt(Math.pow(getAccz2(), 2));
+        float coordenadaZ3 = (float) Math.sqrt(Math.pow(getAccz3(), 2));
+        float coordenadaZ4 = (float) Math.sqrt(Math.pow(getAccz4(), 2));
+        setVecz(coordenadaZ1 + coordenadaZ2 + coordenadaZ3 + coordenadaZ4);       
+    }
+    
+    public void calcularVectores(){
+        calcularVectorX();
+        calcularVectorY();
+        calcularVectorZ();
+    }
+    
+    /* Define el valor de las variables que manda el arduino */
     public void tokenizar(String linea){
         int cont=1;
         setTokens(new StringTokenizer(linea, ","));
@@ -123,11 +161,6 @@ public class Arduino {
             return;
         
         while (getTokens().hasMoreTokens()){
-            /*
-            if(getTokens().countTokens() != 12 ){
-                System.out.println(getTokens().countTokens());
-            }
-            */
             if(cont == 1)
                 setAccX(Float.parseFloat(getTokens().nextToken()));
             else if (cont == 2)
@@ -476,5 +509,47 @@ public class Arduino {
      */
     public Grafico getXy() {
         return xy;
+    }
+
+    /**
+     * @return the vecx
+     */
+    public float getVecx() {
+        return vecx;
+    }
+
+    /**
+     * @return the vecy
+     */
+    public float getVecy() {
+        return vecy;
+    }
+
+    /**
+     * @return the vecz
+     */
+    public float getVecz() {
+        return vecz;
+    }
+
+    /**
+     * @param vecx the vecx to set
+     */
+    public void setVecx(float vecx) {
+        this.vecx = vecx;
+    }
+
+    /**
+     * @param vecy the vecy to set
+     */
+    public void setVecy(float vecy) {
+        this.vecy = vecy;
+    }
+
+    /**
+     * @param vecz the vecz to set
+     */
+    public void setVecz(float vecz) {
+        this.vecz = vecz;
     }
 }

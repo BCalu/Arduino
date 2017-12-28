@@ -11,17 +11,23 @@ public class Grafico {
     private final XYSeriesCollection coleccion = new XYSeriesCollection();
     private final ArrayList<XYSeries> series = new ArrayList<>();
     private final XYSeries accx = new XYSeries("ACCX");
+    /*
     private final XYSeries accx2 = new XYSeries("ACCX2");
     private final XYSeries accx3 = new XYSeries("ACCX3");
     private final XYSeries accx4 = new XYSeries("ACCX4");
+    */
     private final XYSeries accy = new XYSeries("ACCY");
+    /*
     private final XYSeries accy2 = new XYSeries("ACCY2");
     private final XYSeries accy3 = new XYSeries("ACCY3");
     private final XYSeries accy4 = new XYSeries("ACCY4");
+    */
     private final XYSeries accz = new XYSeries("ACCZ");
+    /*
     private final XYSeries accz2 = new XYSeries("ACCZ2");
     private final XYSeries accz3 = new XYSeries("ACCZ3");
     private final XYSeries accz4 = new XYSeries("ACCZ4");
+    */
 
     public void crearGraficoXY(){
         //Agregar las series a la coleccion
@@ -104,6 +110,7 @@ public class Grafico {
     /**
      * @return the accx2
      */
+    /*
     public XYSeries getAccx2() {
         return accx2;
     }
@@ -111,6 +118,7 @@ public class Grafico {
     /**
      * @return the accx3
      */
+    /*
     public XYSeries getAccx3() {
         return accx3;
     }
@@ -118,6 +126,7 @@ public class Grafico {
     /**
      * @return the accx4
      */
+    /*
     public XYSeries getAccx4() {
         return accx4;
     }
@@ -125,6 +134,7 @@ public class Grafico {
     /**
      * @return the accy
      */
+    
     public XYSeries getAccy() {
         return accy;
     }
@@ -132,6 +142,7 @@ public class Grafico {
     /**
      * @return the accy2
      */
+    /*
     public XYSeries getAccy2() {
         return accy2;
     }
@@ -139,6 +150,7 @@ public class Grafico {
     /**
      * @return the accy3
      */
+    /*
     public XYSeries getAccy3() {
         return accy3;
     }
@@ -146,6 +158,7 @@ public class Grafico {
     /**
      * @return the accy4
      */
+    /*
     public XYSeries getAccy4() {
         return accy4;
     }
@@ -160,6 +173,7 @@ public class Grafico {
     /**
      * @return the accz2
      */
+    /*
     public XYSeries getAccz2() {
         return accz2;
     }
@@ -167,6 +181,7 @@ public class Grafico {
     /**
      * @return the accz3
      */
+    /*
     public XYSeries getAccz3() {
         return accz3;
     }
@@ -174,7 +189,8 @@ public class Grafico {
     /**
      * @return the accz4
      */
+    /*
     public XYSeries getAccz4() {
         return accz4;
-    }
+    }*/
 }
