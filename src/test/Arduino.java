@@ -32,7 +32,7 @@ public class Arduino {
     private final DateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
     private float AccX, AccY, AccZ, Accx2, Accy2, Accz2, Accx3, Accy3, Accz3,
             Accx4, Accy4, Accz4;
-    private float vecx, vecy, vecz;
+    private float vec1, vec2, vec3, vec4;
     private String line;
     private StringTokenizer tokens;
     private int contador = 1;
@@ -64,86 +64,64 @@ public class Arduino {
     public void actualizarGrafico(){
         tokenizar(getLine());
         
-        //ACCX's
-        if(xy.getSeries().contains(xy.getAccx())){
-            getXy().agregarASerie(getXy().getAccx(), getContador(), getVecx());
-            System.out.println("VECTOR ACCX: "+getVecx());
+        //ACC1's
+        if(xy.getSeries().contains(xy.getAcc1())){
+            getXy().agregarASerie(getXy().getAcc1(), getContador(), getVec1());
+            //System.out.println("VECTOR ACC1: "+getVec1());
         }
-        /*
-        if(xy.getSeries().contains(xy.getAccx2())){
-            getXy().agregarASerie(getXy().getAccx2(), getContador(), getAccx2());
-        }
-        if(xy.getSeries().contains(xy.getAccx3())){
-            getXy().agregarASerie(getXy().getAccx3(), getContador(), getAccx3());
-        }
-        if(xy.getSeries().contains(xy.getAccx4())){
-            getXy().agregarASerie(getXy().getAccx4(), getContador(), getAccx4());
-        }
-        */
         
-        //ACCY's
-        if(xy.getSeries().contains(xy.getAccy())){
-            getXy().agregarASerie(getXy().getAccy(), getContador(), getVecy());
-            System.out.println("VECTOR ACCY: "+getVecy());
+        //ACC2's
+        if(xy.getSeries().contains(xy.getAcc2())){
+            getXy().agregarASerie(getXy().getAcc2(), getContador(), getVec2());
+            //System.out.println("VECTOR ACC2: "+getVec2());
         }
-        /*
-        if(xy.getSeries().contains(xy.getAccy2())){
-            getXy().agregarASerie(getXy().getAccy2(), getContador(), getAccy2());
-        }
-        if(xy.getSeries().contains(xy.getAccy3())){
-            getXy().agregarASerie(getXy().getAccy3(), getContador(), getAccy3());
-        }
-        if(xy.getSeries().contains(xy.getAccy4())){
-            getXy().agregarASerie(getXy().getAccy4(), getContador(), getAccy4());
-        }
-        */
         
-        //ACCZ's
-        if(xy.getSeries().contains(xy.getAccz())){
-            getXy().agregarASerie(getXy().getAccz(), getContador(), getVecz());
-            System.out.println("VECTOR ACCY: "+getVecz());
+        //ACC3's
+        if(xy.getSeries().contains(xy.getAcc3())){
+            getXy().agregarASerie(getXy().getAcc3(), getContador(), getVec3());
+            //System.out.println("VECTOR ACC3: "+getVec3());
         }
-        /*
-        if(xy.getSeries().contains(xy.getAccz2())){
-            getXy().agregarASerie(getXy().getAccz2(), getContador(), getAccz2());
+        
+        //ACC4's
+        if(xy.getSeries().contains(xy.getAcc4())){
+            getXy().agregarASerie(getXy().getAcc4(), getContador(), getVec4());
+            //System.out.println("VECTOR ACC4: "+getVec4());
         }
-        if(xy.getSeries().contains(xy.getAccz3())){
-            getXy().agregarASerie(getXy().getAccz3(), getContador(), getAccz3());
-        }
-        if(xy.getSeries().contains(xy.getAccz4())){
-            getXy().agregarASerie(getXy().getAccz4(), getContador(), getAccz4());
-        }
-        */
     }
     
-    public void calcularVectorX(){
-        float coordenadaX1 = (float) Math.pow(getAccX(), 2);
+    public void calcularVector1(){
+        float coordenadaX = (float) Math.pow(getAccX(), 2);
+        float coordenadaY = (float) Math.pow(getAccY(), 2);
+        float coordenadaZ = (float) Math.pow(getAccZ(), 2);
+        setVec1((float) Math.sqrt(coordenadaX + coordenadaY + coordenadaZ));
+    }
+    
+    public void calcularVector2(){
         float coordenadaX2 = (float) Math.pow(getAccx2(), 2);
+        float coordenadaY2 = (float) Math.pow(getAccy2(), 2);
+        float coordenadaZ2 = (float) Math.pow(getAccz2(), 2);
+        setVec2((float) Math.sqrt(coordenadaX2 + coordenadaY2 + coordenadaZ2));
+    }
+    
+    public void calcularVector3(){
         float coordenadaX3 = (float) Math.pow(getAccx3(), 2);
+        float coordenadaY3 = (float) Math.pow(getAccy3(), 2);
+        float coordenadaZ3 = (float) Math.pow(getAccz3(), 2);
+        setVec3((float) Math.sqrt(coordenadaX3 + coordenadaY3 + coordenadaZ3));
+    }
+    
+    public void calcularVector4(){
         float coordenadaX4 = (float) Math.pow(getAccx4(), 2);
-        setVecx((float) Math.sqrt(coordenadaX1 + coordenadaX2 + coordenadaX3 + coordenadaX4));       
-    }
-    
-    public void calcularVectorY(){
-        float coordenadaY1 = (float) (Math.pow(getAccY(), 2));
-        float coordenadaY2 = (float) (Math.pow(getAccy2(), 2));
-        float coordenadaY3 = (float) (Math.pow(getAccy3(), 2));
-        float coordenadaY4 = (float) (Math.pow(getAccy4(), 2));
-        setVecy((float) Math.sqrt(coordenadaY1 + coordenadaY2 + coordenadaY3 + coordenadaY4));
-    }
-    
-    public void calcularVectorZ(){
-        float coordenadaZ1 = (float) (Math.pow(getAccZ(), 2));
-        float coordenadaZ2 = (float) (Math.pow(getAccz2(), 2));
-        float coordenadaZ3 = (float) (Math.pow(getAccz3(), 2));
-        float coordenadaZ4 = (float) (Math.pow(getAccz4(), 2));
-        setVecz((float) Math.sqrt(coordenadaZ1 + coordenadaZ2 + coordenadaZ3 + coordenadaZ4));
+        float coordenadaY4 = (float) Math.pow(getAccy4(), 2);
+        float coordenadaZ4 = (float) Math.pow(getAccz4(), 2);
+        setVec4((float) Math.sqrt(coordenadaX4 + coordenadaY4 + coordenadaZ4));
     }
     
     public void calcularVectores(){
-        calcularVectorX();
-        calcularVectorY();
-        calcularVectorZ();
+        calcularVector1();
+        calcularVector2();
+        calcularVector3();
+        calcularVector4();
     }
     
     /* Define el valor de las variables que manda el arduino */
@@ -152,9 +130,10 @@ public class Arduino {
         setTokens(new StringTokenizer(linea, ","));
 
         if(getTokens().countTokens() != 12){
-            setVecx(0);
-            setVecy(0);
-            setVecz(0);
+            setVec1(0);
+            setVec2(0);
+            setVec3(0);
+            setVec4(0);
             return;
         }
         
@@ -248,7 +227,7 @@ public class Arduino {
      * @param SQL the SQL to set
      */
     public void setSQL(String SQL) {
-        this.sentencia = SQL;
+        this.setSentencia(SQL);
     }
 
     /**
@@ -511,44 +490,65 @@ public class Arduino {
     }
 
     /**
-     * @return the vecx
+     * @param sentencia the sentencia to set
      */
-    public float getVecx() {
-        return vecx;
+    public void setSentencia(String sentencia) {
+        this.sentencia = sentencia;
     }
 
     /**
-     * @return the vecy
+     * @return the vec1
      */
-    public float getVecy() {
-        return vecy;
+    public float getVec1() {
+        return vec1;
     }
 
     /**
-     * @return the vecz
+     * @param vec1 the vec1 to set
      */
-    public float getVecz() {
-        return vecz;
+    public void setVec1(float vec1) {
+        this.vec1 = vec1;
     }
 
     /**
-     * @param vecx the vecx to set
+     * @return the vec2
      */
-    public void setVecx(float vecx) {
-        this.vecx = vecx;
+    public float getVec2() {
+        return vec2;
     }
 
     /**
-     * @param vecy the vecy to set
+     * @param vec2 the vec2 to set
      */
-    public void setVecy(float vecy) {
-        this.vecy = vecy;
+    public void setVec2(float vec2) {
+        this.vec2 = vec2;
     }
 
     /**
-     * @param vecz the vecz to set
+     * @return the vec3
      */
-    public void setVecz(float vecz) {
-        this.vecz = vecz;
+    public float getVec3() {
+        return vec3;
+    }
+
+    /**
+     * @param vec3 the vec3 to set
+     */
+    public void setVec3(float vec3) {
+        this.vec3 = vec3;
+    }
+
+    /**
+     * @return the vec4
+     */
+    public float getVec4() {
+        return vec4;
+    }
+
+    /**
+     * @param vec4 the vec4 to set
+     */
+    public void setVec4(float vec4) {
+        this.vec4 = vec4;
     }
 }

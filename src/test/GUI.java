@@ -6,12 +6,14 @@ import java.util.logging.Logger;
 import jssc.SerialPortException;
 
 public class GUI extends javax.swing.JFrame {
+    public Arduino ard;
     
     /**
      * Creates new form GUI
      */
     public GUI() {
         initComponents();
+        jButton_Detener.setEnabled(false);
         this.setLocationRelativeTo(null);
     }
 
@@ -25,13 +27,14 @@ public class GUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jCheckBox_accx = new javax.swing.JCheckBox();
-        jCheckBox_accy = new javax.swing.JCheckBox();
-        jCheckBox_accz = new javax.swing.JCheckBox();
-        jButton2 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jButton_Graficar = new javax.swing.JButton();
+        jButton_Detener = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
+        jCheckBox3 = new javax.swing.JCheckBox();
+        jCheckBox4 = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menú");
@@ -45,61 +48,96 @@ public class GUI extends javax.swing.JFrame {
         jLabel1.setText("Eliga el n° de puerto COM");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, 20));
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setText("Valores de vectores a graficar");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
+
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "12", "13" }));
         getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setText("Variables a graficar");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, -1, -1));
-
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton1.setText("Graficar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton_Graficar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton_Graficar.setText("Graficar");
+        jButton_Graficar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton_GraficarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, -1, -1));
+        getContentPane().add(jButton_Graficar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, -1, -1));
 
-        jCheckBox_accx.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jCheckBox_accx.setText("Accx");
-        getContentPane().add(jCheckBox_accx, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+        jButton_Detener.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton_Detener.setText("Detener");
+        jButton_Detener.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_DetenerActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton_Detener, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, -1, -1));
 
-        jCheckBox_accy.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jCheckBox_accy.setText("Accy");
-        getContentPane().add(jCheckBox_accy, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, -1, -1));
+        jCheckBox1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox1.setText("Acc1");
+        getContentPane().add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, -1, -1));
 
-        jCheckBox_accz.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jCheckBox_accz.setText("Accz");
-        getContentPane().add(jCheckBox_accz, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, -1, -1));
+        jCheckBox2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox2.setText("Acc2");
+        getContentPane().add(jCheckBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, -1, -1));
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton2.setText("Detener");
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, -1, -1));
+        jCheckBox3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox3.setText("Acc3");
+        getContentPane().add(jCheckBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, -1, -1));
+
+        jCheckBox4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jCheckBox4.setText("Acc4");
+        getContentPane().add(jCheckBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Arduino ard = new Arduino();
+    private void jButton_GraficarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_GraficarActionPerformed
+        ard = new Arduino();
         ard.setPORT_NAME("COM"+(String) jComboBox1.getSelectedItem());
 
-        if(jCheckBox_accx.isSelected())
-            ard.getXy().getSeries().add(ard.getXy().getAccx());
+        if(jCheckBox1.isSelected())
+            ard.getXy().getSeries().add(ard.getXy().getAcc1());
 
-        if(jCheckBox_accy.isSelected())
-            ard.getXy().getSeries().add(ard.getXy().getAccy());
+        if(jCheckBox2.isSelected())
+            ard.getXy().getSeries().add(ard.getXy().getAcc2());
 
-        if(jCheckBox_accz.isSelected())
-            ard.getXy().getSeries().add(ard.getXy().getAccz());
+        if(jCheckBox3.isSelected())
+            ard.getXy().getSeries().add(ard.getXy().getAcc3());
+        
+        if(jCheckBox4.isSelected())
+            ard.getXy().getSeries().add(ard.getXy().getAcc4());
 
         ard.prepararGrafico();
+        jComboBox1.setEnabled(false);
+        jButton_Graficar.setEnabled(false);
+        jButton_Detener.setEnabled(true);
+        jCheckBox1.setEnabled(false);
+        jCheckBox2.setEnabled(false);
+        jCheckBox3.setEnabled(false);
+        jCheckBox4.setEnabled(false);
+        
         try {
             ard.getARD().arduinoRX(ard.getPORT_NAME(), ard.getDATA_RATE(), ard.getEVENT());
         } catch (ArduinoException | SerialPortException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton_GraficarActionPerformed
+
+    private void jButton_DetenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_DetenerActionPerformed
+        try {
+            ard.getARD().killArduinoConnection();
+        } catch (ArduinoException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jComboBox1.setEnabled(true);
+        jButton_Graficar.setEnabled(true);
+        jButton_Detener.setEnabled(false);
+        jCheckBox1.setEnabled(true);
+        jCheckBox2.setEnabled(true);
+        jCheckBox3.setEnabled(true);
+        jCheckBox4.setEnabled(true);
+    }//GEN-LAST:event_jButton_DetenerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -137,11 +175,12 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JCheckBox jCheckBox_accx;
-    private javax.swing.JCheckBox jCheckBox_accy;
-    private javax.swing.JCheckBox jCheckBox_accz;
+    private javax.swing.JButton jButton_Detener;
+    private javax.swing.JButton jButton_Graficar;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JCheckBox jCheckBox4;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

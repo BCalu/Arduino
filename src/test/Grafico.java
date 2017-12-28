@@ -10,24 +10,10 @@ public class Grafico {
     private ChartFrame frame;
     private final XYSeriesCollection coleccion = new XYSeriesCollection();
     private final ArrayList<XYSeries> series = new ArrayList<>();
-    private final XYSeries accx = new XYSeries("ACCX");
-    /*
-    private final XYSeries accx2 = new XYSeries("ACCX2");
-    private final XYSeries accx3 = new XYSeries("ACCX3");
-    private final XYSeries accx4 = new XYSeries("ACCX4");
-    */
-    private final XYSeries accy = new XYSeries("ACCY");
-    /*
-    private final XYSeries accy2 = new XYSeries("ACCY2");
-    private final XYSeries accy3 = new XYSeries("ACCY3");
-    private final XYSeries accy4 = new XYSeries("ACCY4");
-    */
-    private final XYSeries accz = new XYSeries("ACCZ");
-    /*
-    private final XYSeries accz2 = new XYSeries("ACCZ2");
-    private final XYSeries accz3 = new XYSeries("ACCZ3");
-    private final XYSeries accz4 = new XYSeries("ACCZ4");
-    */
+    private final XYSeries acc1 = new XYSeries("ACC1");
+    private final XYSeries acc2 = new XYSeries("ACC2");
+    private final XYSeries acc3 = new XYSeries("ACC3");
+    private final XYSeries acc4 = new XYSeries("ACC4");
 
     public void crearGraficoXY(){
         //Agregar las series a la coleccion
@@ -51,12 +37,6 @@ public class Grafico {
     public void agregarASerie(XYSeries serie, float i, float valor){
         serie.add(i, valor);
     }
-    
-    /*
-    public void vaciarLista(){
-        this.getSeries().clear();
-    }
-    */
     
     /**
      * @return the chart
@@ -101,96 +81,30 @@ public class Grafico {
     }
 
     /**
-     * @return the accx
+     * @return the acc1
      */
-    public XYSeries getAccx() {
-        return accx;
+    public XYSeries getAcc1() {
+        return acc1;
     }
 
     /**
-     * @return the accx2
+     * @return the acc2
      */
-    /*
-    public XYSeries getAccx2() {
-        return accx2;
+    public XYSeries getAcc2() {
+        return acc2;
     }
 
     /**
-     * @return the accx3
+     * @return the acc3
      */
-    /*
-    public XYSeries getAccx3() {
-        return accx3;
+    public XYSeries getAcc3() {
+        return acc3;
     }
 
     /**
-     * @return the accx4
+     * @return the acc4
      */
-    /*
-    public XYSeries getAccx4() {
-        return accx4;
+    public XYSeries getAcc4() {
+        return acc4;
     }
-
-    /**
-     * @return the accy
-     */
-    
-    public XYSeries getAccy() {
-        return accy;
-    }
-
-    /**
-     * @return the accy2
-     */
-    /*
-    public XYSeries getAccy2() {
-        return accy2;
-    }
-
-    /**
-     * @return the accy3
-     */
-    /*
-    public XYSeries getAccy3() {
-        return accy3;
-    }
-
-    /**
-     * @return the accy4
-     */
-    /*
-    public XYSeries getAccy4() {
-        return accy4;
-    }
-
-    /**
-     * @return the accz
-     */
-    public XYSeries getAccz() {
-        return accz;
-    }
-
-    /**
-     * @return the accz2
-     */
-    /*
-    public XYSeries getAccz2() {
-        return accz2;
-    }
-
-    /**
-     * @return the accz3
-     */
-    /*
-    public XYSeries getAccz3() {
-        return accz3;
-    }
-
-    /**
-     * @return the accz4
-     */
-    /*
-    public XYSeries getAccz4() {
-        return accz4;
-    }*/
 }
