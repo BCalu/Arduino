@@ -151,8 +151,12 @@ public class Arduino {
         int cont=1;
         setTokens(new StringTokenizer(linea, ","));
 
-        if(getTokens().countTokens() != 12)
+        if(getTokens().countTokens() != 12){
+            setVecx(0);
+            setVecy(0);
+            setVecz(0);
             return;
+        }
         
         while (getTokens().hasMoreTokens()){
             if(cont == 1)
