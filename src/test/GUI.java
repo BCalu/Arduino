@@ -10,15 +10,20 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+//import java.util.Date;
 import java.util.logging.SimpleFormatter;
+import javax.swing.JComboBox;
 import jssc.SerialPortException;
 
 public class GUI extends javax.swing.JFrame {
     public Arduino ard;
-    public Date fechaInicial;
-    public Date fechaFinal;
+    public java.sql.Date fechaInicial;
+    public java.sql.Date fechaFinal;
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    
     
     /**
      * Creates new form GUI
@@ -56,9 +61,7 @@ public class GUI extends javax.swing.JFrame {
         jCheckBox4 = new javax.swing.JCheckBox();
         jButton_ExportarDatos = new javax.swing.JButton();
 
-        jFrame1.setMaximumSize(new java.awt.Dimension(400, 300));
         jFrame1.setMinimumSize(new java.awt.Dimension(400, 300));
-        jFrame1.setPreferredSize(new java.awt.Dimension(400, 300));
         jFrame1.setSize(new java.awt.Dimension(400, 300));
         jFrame1.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -91,7 +94,7 @@ public class GUI extends javax.swing.JFrame {
         setTitle("Menú");
         setMaximumSize(new java.awt.Dimension(300, 300));
         setMinimumSize(new java.awt.Dimension(300, 300));
-        setPreferredSize(new java.awt.Dimension(300, 300));
+        setPreferredSize(new java.awt.Dimension(300, 350));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -200,33 +203,29 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_DetenerActionPerformed
 
     private void jButton_ExportarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ExportarDatosActionPerformed
-        ResultSet valores = crud.CRUD.getQuery("SELECT Fecha FROM test");
-        String fecha;
-        try {
-            while(valores.next()){
-                fecha = valores.getString("Fecha");
-                jComboBox_Registro1.addItem(fecha);
-                jComboBox_Registro2.addItem(fecha);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        cargarDatosComboBox(jComboBox_Registro1);
+        cargarDatosComboBox(jComboBox_Registro2);
         jFrame1.setVisible(true);
         jFrame1.setLocationRelativeTo(null);
         this.setVisible(false);
     }//GEN-LAST:event_jButton_ExportarDatosActionPerformed
 
     private void jButton_ExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ExportarActionPerformed
-        fechaInicial = (Date) jComboBox_Registro1.getSelectedItem();
-        fechaFinal = (Date) jComboBox_Registro2.getSelectedItem();
+        try {
+            fechaInicial = StringToDate((String) jComboBox_Registro1.getSelectedItem());
+            fechaFinal = StringToDate((String) jComboBox_Registro2.getSelectedItem());
+            //System.out.println(df.format(fechaInicial));
+            //System.out.println(df.format(fechaFinal));
+        } catch (ParseException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         if(compararFechas(fechaInicial, fechaFinal) == true){
-            //Pasar la historia a txt
-            System.out.println("PASANDO LA HISTORIA A TXT");
+            System.out.println("CREAR TXT");
         }
         else{
-            System.out.println("FECHA INVALIDA");
-        }
+            System.out.println("NEL :V");
+        }        
     }//GEN-LAST:event_jButton_ExportarActionPerformed
 
     
@@ -235,10 +234,48 @@ public class GUI extends javax.swing.JFrame {
      * 
      * @param f1 fecha inicial
      * @param f2 fecha final
-     * @return verdadero si final es despues de inicial, false de caso contrario
+     * @return true si final es despues de inicial, false de caso contrario
      */
     public boolean compararFechas(Date f1, Date f2){
-        return f2.after(f1);
+        return f2.after(f1) || f2.equals(f1);
+    }
+    
+    /**
+     * Carga las fechas de la BDD al JComboBox B
+     * 
+     * @param B JComboBox a cargar los datos
+     */
+    public void cargarDatosComboBox(JComboBox B){
+        ResultSet valores = crud.CRUD.getQuery("SELECT Fecha FROM test");
+        String fecha;
+        try {
+            while(valores.next()){
+                fecha = valores.getString("Fecha");
+                B.addItem(fecha);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * Transforma el String Sdate a java.sql.Date
+     * 
+     * @param Sdate la fecha en formato String
+     * @return java.sql.Date
+     * @throws ParseException 
+     */
+    public Date StringToDate(String Sdate) throws ParseException{
+        java.util.Date Udate = df.parse(Sdate);
+        //System.out.println(df.format(Udate));
+        Date d = null;
+        d = new Date(Udate.getTime());
+        //System.out.println(df.format(d));
+        return d;
+    }
+    
+    public void crearTXT(){
+        
     }
     
     /**
