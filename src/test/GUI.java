@@ -20,10 +20,6 @@ import jssc.SerialPortException;
 
 public class GUI extends javax.swing.JFrame {
     public Arduino ard;
-    public java.sql.Date fechaInicial;
-    public java.sql.Date fechaFinal;
-    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-    
     
     /**
      * Creates new form GUI
@@ -211,17 +207,22 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_ExportarDatosActionPerformed
 
     private void jButton_ExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ExportarActionPerformed
+        Date fechaInicial = null;
+        Date fechaFinal = null;
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String SfechaInicial = (String) jComboBox_Registro1.getSelectedItem();
+        String SfechaFinal = (String) jComboBox_Registro2.getSelectedItem();
         try {
-            fechaInicial = StringToDate((String) jComboBox_Registro1.getSelectedItem());
-            fechaFinal = StringToDate((String) jComboBox_Registro2.getSelectedItem());
+            fechaInicial = StringToDate(SfechaInicial, df);
+            fechaFinal = StringToDate(SfechaFinal, df);
             //System.out.println(df.format(fechaInicial));
             //System.out.println(df.format(fechaFinal));
         } catch (ParseException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         if(compararFechas(fechaInicial, fechaFinal) == true){
             System.out.println("CREAR TXT");
+            ResultSet rs = obtenerRegistros((String) jComboBox_Registro1.getSelectedItem(), (String) jComboBox_Registro2.getSelectedItem());
         }
         else{
             System.out.println("NEL :V");
@@ -237,13 +238,16 @@ public class GUI extends javax.swing.JFrame {
      * @return true si final es despues de inicial, false de caso contrario
      */
     public boolean compararFechas(Date f1, Date f2){
+        if(f1 == null && f2 == null){
+            return false;
+        }
         return f2.after(f1) || f2.equals(f1);
     }
     
     /**
      * Carga las fechas de la BDD al JComboBox B
      * 
-     * @param B JComboBox a cargar los datos
+     * @param B JComboBox donde se almacenaran los datos
      */
     public void cargarDatosComboBox(JComboBox B){
         ResultSet valores = crud.CRUD.getQuery("SELECT Fecha FROM test");
@@ -265,13 +269,33 @@ public class GUI extends javax.swing.JFrame {
      * @return java.sql.Date
      * @throws ParseException 
      */
-    public Date StringToDate(String Sdate) throws ParseException{
+    public Date StringToDate(String Sdate, DateFormat df) throws ParseException{
         java.util.Date Udate = df.parse(Sdate);
         //System.out.println(df.format(Udate));
         Date d = null;
         d = new Date(Udate.getTime());
         //System.out.println(df.format(d));
         return d;
+    }
+    
+    /**
+     * Obtiene los registros que estan entremedio de las dos fechas indicadas
+     * 
+     * @param r1 Registro 1
+     * @param r2 Registro 2
+     * @return El ResultSet con los registros
+     */
+    public ResultSet obtenerRegistros(String r1, String r2){
+        ResultSet rs  = crud.CRUD.getQuery("SELECT Fecha from test "
+                + "WHERE Fecha BETWEEN '"+r1+"' and '"+r2+"'");
+        try {
+            while(rs.next()){
+                System.out.println(rs.getString("Fecha"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
     }
     
     public void crearTXT(){
