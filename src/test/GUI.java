@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 //import java.util.Date;
 import java.util.logging.SimpleFormatter;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import jssc.SerialPortException;
 
 public class GUI extends javax.swing.JFrame {
@@ -31,6 +32,7 @@ public class GUI extends javax.swing.JFrame {
         initComponents();
         jButton_Detener.setEnabled(false);
         this.setLocationRelativeTo(null);
+        jFrame1.setLocationRelativeTo(null);
     }
 
     /**
@@ -204,9 +206,7 @@ public class GUI extends javax.swing.JFrame {
     private void jButton_ExportarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ExportarDatosActionPerformed
         cargarDatosComboBox(jComboBox_Registro1);
         cargarDatosComboBox(jComboBox_Registro2);
-        jFrame1.setVisible(true);
-        jFrame1.setLocationRelativeTo(null);
-        this.setVisible(false);
+        cambiarDeVentana(this, jFrame1);
     }//GEN-LAST:event_jButton_ExportarDatosActionPerformed
 
     private void jButton_ExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ExportarActionPerformed
@@ -218,21 +218,20 @@ public class GUI extends javax.swing.JFrame {
         try {
             fechaInicial = StringToDate(SfechaInicial, df);
             fechaFinal = StringToDate(SfechaFinal, df);
-            //System.out.println(df.format(fechaInicial));
-            //System.out.println(df.format(fechaFinal));
         } catch (ParseException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         if(compararFechas(fechaInicial, fechaFinal) == true){
-            System.out.println("CREAR TXT");
             ResultSet rs = obtenerRegistros(SfechaInicial, SfechaFinal);
             escribirEnTXT(rs);
+            //Implementar ventana de notificacion de que se creo el archivo
+            cambiarDeVentana(jFrame1, this);
         }
         else{
-            System.out.println("NEL :V");
+            //Implementar venata de notificacion sobre el error
+            //System.out.println("NEL :V");
         }
     }//GEN-LAST:event_jButton_ExportarActionPerformed
-
     
     /**
      * Comprueba si la fecha final es antes, despues o igual a la fecha inicial
@@ -276,9 +275,7 @@ public class GUI extends javax.swing.JFrame {
      */
     public Date StringToDate(String Sdate, DateFormat df) throws ParseException{
         java.util.Date Udate = df.parse(Sdate);
-        //System.out.println(df.format(Udate));
         Date d = new Date(Udate.getTime());
-        //System.out.println(df.format(d));
         return d;
     }
     
@@ -295,10 +292,14 @@ public class GUI extends javax.swing.JFrame {
         return rs;
     }
     
+    /**
+     * Funcion que escribe los registros en el archivo txt
+     * 
+     * @param rs Los registros a escribir en el archivo
+     */
     public void escribirEnTXT(ResultSet rs){
         try {
             PrintWriter ar = new PrintWriter(new FileWriter("historial.txt"));
-            System.out.println("ESCRIBIENDO");
             while(rs.next()){
                 ar.print(rs.getString("Fecha")+",");
                 ar.print(rs.getString("AccX")+",");
@@ -320,7 +321,17 @@ public class GUI extends javax.swing.JFrame {
             //Poner excepcion que no existe el archivo
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("TXT LISTO");
+    }
+    
+    /**
+     * Pasa de una ventana a otra 
+     * 
+     * @param origen ventana de origen
+     * @param destino ventana de destino
+     */
+    public void cambiarDeVentana(JFrame origen, JFrame destino){
+        origen.setVisible(false);
+        destino.setVisible(true);
     }
     
     /**

@@ -60,7 +60,9 @@ public class Arduino {
         getXy().mostrarGrafico();
     }
     
-    /* Actualiza los valores de las variables dentro del grafico */
+    /**
+     * Actualiza los valores de las variables dentro del grafico
+     */
     public void actualizarGrafico(){
         tokenizar(getLine());
         
@@ -124,7 +126,11 @@ public class Arduino {
         calcularVector4();
     }
     
-    /* Define el valor de las variables que manda el arduino */
+    /**
+     * Define el valor de las variables que manda el arduino
+     * 
+     * @param linea variables que manda el arduino
+     */
     public void tokenizar(String linea){
         int cont=1;
         setTokens(new StringTokenizer(linea, ","));
@@ -165,20 +171,19 @@ public class Arduino {
             cont++;
         }
         setFecha(new Date(System.currentTimeMillis()));
-        //System.out.println(formato.format(fecha));
         calcularVectores();
         prepareSqlString();
     }
     
-    /* Prepara la sentencia SQL y agrega a la BDD */
+    /**
+     * Prepara la sentencia SQL y agrega a la BDD
+     */
     public void prepareSqlString(){      
         setSQL("INSERT INTO test (Fecha, AccX, AccY, AccZ, accx2, accy2, accz2, accx3, accy3, accz3, accx4, accy4, accz4) "
                 + "VALUES ('" + getFormato().format(getFecha()) + "', " + getAccX() + ", " + getAccY() + ", " + getAccZ() + 
                 ", " + getAccx2() + ", " + getAccy2() + ", " + getAccz2() + ", " + getAccx3() + ", " + getAccy3() + ", " + 
                 getAccz3() + ", " + getAccx4() + ", " + getAccy4() + ", " + getAccz4() + ")");
-        //System.out.println(SQL);
         CRUD.sendQuery(getSQL());
-        //System.out.println("INSERTADO");
     }
 
     /**
