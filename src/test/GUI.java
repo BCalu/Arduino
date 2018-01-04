@@ -3,6 +3,9 @@ package test;
 import com.panamahitek.ArduinoException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -222,11 +225,12 @@ public class GUI extends javax.swing.JFrame {
         }
         if(compararFechas(fechaInicial, fechaFinal) == true){
             System.out.println("CREAR TXT");
-            ResultSet rs = obtenerRegistros((String) jComboBox_Registro1.getSelectedItem(), (String) jComboBox_Registro2.getSelectedItem());
+            ResultSet rs = obtenerRegistros(SfechaInicial, SfechaFinal);
+            escribirEnTXT(rs);
         }
         else{
             System.out.println("NEL :V");
-        }        
+        }
     }//GEN-LAST:event_jButton_ExportarActionPerformed
 
     
@@ -266,14 +270,14 @@ public class GUI extends javax.swing.JFrame {
      * Transforma el String Sdate a java.sql.Date
      * 
      * @param Sdate la fecha en formato String
+     * @param df Formato de la fecha
      * @return java.sql.Date
      * @throws ParseException 
      */
     public Date StringToDate(String Sdate, DateFormat df) throws ParseException{
         java.util.Date Udate = df.parse(Sdate);
         //System.out.println(df.format(Udate));
-        Date d = null;
-        d = new Date(Udate.getTime());
+        Date d = new Date(Udate.getTime());
         //System.out.println(df.format(d));
         return d;
     }
@@ -286,20 +290,37 @@ public class GUI extends javax.swing.JFrame {
      * @return El ResultSet con los registros
      */
     public ResultSet obtenerRegistros(String r1, String r2){
-        ResultSet rs  = crud.CRUD.getQuery("SELECT Fecha from test "
+        ResultSet rs  = crud.CRUD.getQuery("SELECT * from test "
                 + "WHERE Fecha BETWEEN '"+r1+"' and '"+r2+"'");
-        try {
-            while(rs.next()){
-                System.out.println(rs.getString("Fecha"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
         return rs;
     }
     
-    public void crearTXT(){
-        
+    public void escribirEnTXT(ResultSet rs){
+        try {
+            PrintWriter ar = new PrintWriter(new FileWriter("historial.txt"));
+            System.out.println("ESCRIBIENDO");
+            while(rs.next()){
+                ar.print(rs.getString("Fecha")+",");
+                ar.print(rs.getString("AccX")+",");
+                ar.print(rs.getString("AccY")+",");
+                ar.print(rs.getString("AccZ")+",");
+                ar.print(rs.getString("Accx2")+",");
+                ar.print(rs.getString("Accy2")+",");
+                ar.print(rs.getString("Accz2")+",");
+                ar.print(rs.getString("Accx3")+",");
+                ar.print(rs.getString("Accy3")+",");
+                ar.print(rs.getString("Accz3")+",");
+                ar.print(rs.getString("Accx4")+",");
+                ar.print(rs.getString("Accy4")+",");
+                ar.print(rs.getString("Accz4"));
+                ar.println();
+                }
+            ar.close();
+        } catch (IOException | SQLException ex) {
+            //Poner excepcion que no existe el archivo
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("TXT LISTO");
     }
     
     /**
