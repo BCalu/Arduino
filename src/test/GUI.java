@@ -3,6 +3,8 @@ package test;
 import com.panamahitek.ArduinoException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,17 +14,13 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//import java.util.Date;
-import java.util.logging.SimpleFormatter;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import jssc.SerialPortException;
 
-public class GUI extends javax.swing.JFrame {
+public class GUI extends javax.swing.JFrame{
     public Arduino ard;
     
     /**
@@ -64,6 +62,11 @@ public class GUI extends javax.swing.JFrame {
 
         jFrame1.setMinimumSize(new java.awt.Dimension(400, 300));
         jFrame1.setSize(new java.awt.Dimension(400, 300));
+        jFrame1.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                jFrame1WindowClosing(evt);
+            }
+        });
         jFrame1.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -232,6 +235,10 @@ public class GUI extends javax.swing.JFrame {
             //System.out.println("NEL :V");
         }
     }//GEN-LAST:event_jButton_ExportarActionPerformed
+
+    private void jFrame1WindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jFrame1WindowClosing
+        cambiarDeVentana(jFrame1, this);
+    }//GEN-LAST:event_jFrame1WindowClosing
     
     /**
      * Comprueba si la fecha final es antes, despues o igual a la fecha inicial
