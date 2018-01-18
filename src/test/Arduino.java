@@ -10,7 +10,6 @@ import jssc.SerialPortException;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 public class Arduino {
     /* Instanciar Arduino */
@@ -25,6 +24,7 @@ public class Arduino {
     /* Sentencia SQL */
     private String sentencia;
     
+    /* Grafico XY */
     private final Grafico xy = new Grafico();
     
     /* Datos */
