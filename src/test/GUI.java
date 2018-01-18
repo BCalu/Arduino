@@ -31,6 +31,7 @@ public class GUI extends javax.swing.JFrame{
         this.setLocationRelativeTo(null);
         jFrame1.setLocationRelativeTo(null);        
         bloquearMenu();
+        jComboBox1.setEnabled(true);
 
         jComboBox1.addActionListener(new ActionListener() {
             @Override
@@ -237,18 +238,14 @@ public class GUI extends javax.swing.JFrame{
             ard.getXy().getSeries().add(ard.getXy().getAcc4());
 
         ard.prepararGrafico();
-        jComboBox1.setEnabled(false);
-        jButton_Graficar.setEnabled(false);
-        jButton_Detener.setEnabled(true);
-        jCheckBox1.setEnabled(false);
-        jCheckBox2.setEnabled(false);
-        jCheckBox3.setEnabled(false);
-        jCheckBox4.setEnabled(false);
+        bloquearMenu();
         
         try {
             ard.getARD().arduinoRX(ard.getPORT_NAME(), ard.getDATA_RATE(), ard.getEVENT());
         } catch (ArduinoException | SerialPortException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, ex);
+            ard.getXy().getFrame().dispose();
+            reiniciarMenu();
         }
     }//GEN-LAST:event_jButton_GraficarActionPerformed
 
@@ -421,14 +418,27 @@ public class GUI extends javax.swing.JFrame{
         jCheckBox4.setEnabled(true);
     }
     
+    public void reiniciarCheckBox(){
+        jCheckBox1.setSelected(false);
+        jCheckBox2.setSelected(false);
+        jCheckBox3.setSelected(false);
+        jCheckBox4.setSelected(false);
+    }
+    
+    public void reiniciarMenu(){
+        jComboBox1.setSelectedIndex(0);
+        jComboBox1.setEnabled(true);
+        reiniciarCheckBox();
+    }
+    
     public void bloquearMenu(){
-        //jComboBox1.setEnabled(false);
+        jComboBox1.setEnabled(false);
         bloquearCheckBox();
         jButton_Graficar.setEnabled(false);
         jButton_Detener.setEnabled(false);
         //jButton_ExportarDatos.setEnabled(false);
-    }
-    
+    }   
+      
     /**
      * @param args the command line arguments
      */
