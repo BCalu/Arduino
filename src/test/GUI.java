@@ -3,8 +3,6 @@ package test;
 import com.panamahitek.ArduinoException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,11 +12,12 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.EventListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import jssc.SerialPortException;
 
 public class GUI extends javax.swing.JFrame{
@@ -29,9 +28,69 @@ public class GUI extends javax.swing.JFrame{
      */
     public GUI() {
         initComponents();
-        jButton_Detener.setEnabled(false);
         this.setLocationRelativeTo(null);
-        jFrame1.setLocationRelativeTo(null);
+        jFrame1.setLocationRelativeTo(null);        
+        bloquearMenu();
+
+        jComboBox1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(jComboBox1.getSelectedItem() != "-"){
+                    desbloquearCheckBox();
+                }
+                else{
+                    bloquearCheckBox();
+                }
+            }
+        });
+        
+        jCheckBox1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(jCheckBox1.isSelected()){
+                    jButton_Graficar.setEnabled(true);
+                }
+                if(jCheckBox1.isSelected()==false && jCheckBox2.isSelected()==false && jCheckBox3.isSelected()==false && jCheckBox4.isSelected()==false){
+                    jButton_Graficar.setEnabled(false);
+                }
+            }
+        });
+        
+        jCheckBox2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(jCheckBox2.isSelected()){
+                    jButton_Graficar.setEnabled(true);
+                }
+                if(jCheckBox1.isSelected()==false && jCheckBox2.isSelected()==false && jCheckBox3.isSelected()==false && jCheckBox4.isSelected()==false){
+                    jButton_Graficar.setEnabled(false);
+                }
+            }
+        });
+        
+        jCheckBox3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(jCheckBox3.isSelected()){
+                    jButton_Graficar.setEnabled(true);
+                }
+                if(jCheckBox1.isSelected()==false && jCheckBox2.isSelected()==false && jCheckBox3.isSelected()==false && jCheckBox4.isSelected()==false){
+                    jButton_Graficar.setEnabled(false);
+                }
+            }
+        });
+        
+        jCheckBox4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(jCheckBox4.isSelected()){
+                    jButton_Graficar.setEnabled(true);
+                }
+                if(jCheckBox1.isSelected()==false && jCheckBox2.isSelected()==false && jCheckBox3.isSelected()==false && jCheckBox4.isSelected()==false){
+                    jButton_Graficar.setEnabled(false);
+                }
+            }
+        });
     }
 
     /**
@@ -111,7 +170,8 @@ public class GUI extends javax.swing.JFrame{
         jLabel2.setText("Valores de vectores a graficar");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "12", "13" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "12", "13" }));
+        jComboBox1.setToolTipText("");
         getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 20, -1, -1));
 
         jButton_Graficar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -210,7 +270,12 @@ public class GUI extends javax.swing.JFrame{
     private void jButton_ExportarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ExportarDatosActionPerformed
         cargarDatosComboBox(jComboBox_Registro1);
         cargarDatosComboBox(jComboBox_Registro2);
-        cambiarDeVentana(this, jFrame1);
+        if(jComboBox_Registro1.getItemCount() == 0 && jComboBox_Registro2.getItemCount()==0){
+            JOptionPane.showMessageDialog(null, "No hay registros existentes en la base de datos");
+        }
+        else{
+            cambiarDeVentana(this, jFrame1);
+        }
     }//GEN-LAST:event_jButton_ExportarDatosActionPerformed
 
     private void jButton_ExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ExportarActionPerformed
@@ -306,8 +371,8 @@ public class GUI extends javax.swing.JFrame{
      * @param rs Los registros a escribir en el archivo
      */
     public void escribirEnTXT(ResultSet rs){
-        try {
-            PrintWriter ar = new PrintWriter(new FileWriter("historial.txt"));
+        //Si no escribe bien en el txt cambiar el ar dentro del try
+        try (PrintWriter ar = new PrintWriter(new FileWriter("historial.txt"))){
             while(rs.next()){
                 ar.print(rs.getString("Fecha")+",");
                 ar.print(rs.getString("AccX")+",");
@@ -340,6 +405,28 @@ public class GUI extends javax.swing.JFrame{
     public void cambiarDeVentana(JFrame origen, JFrame destino){
         origen.setVisible(false);
         destino.setVisible(true);
+    }
+    
+    public void bloquearCheckBox(){
+        jCheckBox1.setEnabled(false);
+        jCheckBox2.setEnabled(false);
+        jCheckBox3.setEnabled(false);
+        jCheckBox4.setEnabled(false);
+    }
+    
+    public void desbloquearCheckBox(){
+        jCheckBox1.setEnabled(true);
+        jCheckBox2.setEnabled(true);
+        jCheckBox3.setEnabled(true);
+        jCheckBox4.setEnabled(true);
+    }
+    
+    public void bloquearMenu(){
+        //jComboBox1.setEnabled(false);
+        bloquearCheckBox();
+        jButton_Graficar.setEnabled(false);
+        jButton_Detener.setEnabled(false);
+        //jButton_ExportarDatos.setEnabled(false);
     }
     
     /**

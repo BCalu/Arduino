@@ -11,12 +11,19 @@ import org.jfree.data.xy.XYSeriesCollection;
 public class Grafico {
     private JFreeChart chart;
     private ChartFrame frame;
-    private WindowListener wl = new WindowAdapter() {
+    /*
+    public WindowListener wl = new WindowAdapter() {
         @Override
         public void windowClosed(WindowEvent e) {
             System.out.println("Grafico cerrado");
         }
+        
+        @Override
+        public void windowClosing(WindowEvent e){
+            
+        }
     };
+    */
     private final XYSeriesCollection coleccion = new XYSeriesCollection();
     private final ArrayList<XYSeries> series = new ArrayList<>();
     private final XYSeries acc1 = new XYSeries("ACC1");
@@ -36,7 +43,7 @@ public class Grafico {
     
     public void mostrarGrafico(){
         this.setFrame(new ChartFrame("Resultados", this.getChart()));
-        this.getFrame().addWindowListener(getWl());
+        //this.getFrame().addWindowListener(getWl());
         this.getFrame().setSize(800, 600);
         this.getFrame().setLocationRelativeTo(null);
         this.getFrame().setVisible(true);
@@ -114,19 +121,5 @@ public class Grafico {
      */
     public XYSeries getAcc4() {
         return acc4;
-    }
-
-    /**
-     * @return the wl
-     */
-    public WindowListener getWl() {
-        return wl;
-    }
-
-    /**
-     * @param wl the wl to set
-     */
-    public void setWl(WindowListener wl) {
-        this.wl = wl;
     }
 }
