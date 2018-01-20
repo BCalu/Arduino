@@ -3,6 +3,7 @@ package test;
 import com.panamahitek.ArduinoException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -287,13 +288,21 @@ public class GUI extends javax.swing.JFrame{
         } catch (ParseException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         if(compararFechas(fechaInicial, fechaFinal) == true){
             ResultSet rs = obtenerRegistros(SfechaInicial, SfechaFinal);
-            escribirEnTXT(rs);
+            if(escribirEnTXT(rs)){
+                JOptionPane.showMessageDialog(null, "Archivo de texto creado.");
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Operacion cancelada.");
+            }
+            
             //Implementar ventana de notificacion de que se creo el archivo
             cambiarDeVentana(jFrame1, this);
         }
         else{
+            JOptionPane.showMessageDialog(null, "Fechas ingresadas no validas.");
             //Implementar venata de notificacion sobre el error
             //System.out.println("NEL :V");
         }
@@ -366,33 +375,45 @@ public class GUI extends javax.swing.JFrame{
      * Funcion que escribe los registros en el archivo txt
      * 
      * @param rs Los registros a escribir en el archivo
+     * @return true si se creo, false de caso contrario
      */
-    public void escribirEnTXT(ResultSet rs){
-        //Si no escribe bien en el txt cambiar el ar dentro del try
-        try (PrintWriter ar = new PrintWriter(new FileWriter("historial.txt"))){
-            while(rs.next()){
-                ar.print(rs.getString("Fecha")+",");
-                ar.print(rs.getString("AccX")+",");
-                ar.print(rs.getString("AccY")+",");
-                ar.print(rs.getString("AccZ")+",");
-                ar.print(rs.getString("Accx2")+",");
-                ar.print(rs.getString("Accy2")+",");
-                ar.print(rs.getString("Accz2")+",");
-                ar.print(rs.getString("Accx3")+",");
-                ar.print(rs.getString("Accy3")+",");
-                ar.print(rs.getString("Accz3")+",");
-                ar.print(rs.getString("Accx4")+",");
-                ar.print(rs.getString("Accy4")+",");
-                ar.print(rs.getString("Accz4"));
-                ar.println();
-                }
-            ar.close();
-        } catch (IOException | SQLException ex) {
-            //Poner excepcion que no existe el archivo
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+    public boolean escribirEnTXT(ResultSet rs){
+        File f = new File("historial.txt");
+        int resultado = 1;
+        
+        //Si existe se pregunta si se reemplaza o no
+        if(f.exists()){
+            resultado = JOptionPane.showConfirmDialog(null, "Ya hay un archivo existente ¿Desea reemplazarlo?");
         }
+        //Si se desea reemplazar o el archivo no existe
+        if(resultado == 0 || f.exists()==false){
+            try (PrintWriter ar = new PrintWriter(new FileWriter("historial.txt"))){
+                while(rs.next()){
+                    ar.print(rs.getString("Fecha")+",");
+                    ar.print(rs.getString("AccX")+",");
+                    ar.print(rs.getString("AccY")+",");
+                    ar.print(rs.getString("AccZ")+",");
+                    ar.print(rs.getString("Accx2")+",");
+                    ar.print(rs.getString("Accy2")+",");
+                    ar.print(rs.getString("Accz2")+",");
+                    ar.print(rs.getString("Accx3")+",");
+                    ar.print(rs.getString("Accy3")+",");
+                    ar.print(rs.getString("Accz3")+",");
+                    ar.print(rs.getString("Accx4")+",");
+                    ar.print(rs.getString("Accy4")+",");
+                    ar.print(rs.getString("Accz4"));
+                    ar.println();
+                }
+                ar.close();
+                return true;
+            } catch (IOException | SQLException ex) {
+                //Poner excepcion que no existe el archivo
+                JOptionPane.showMessageDialog(null, ex);
+            }
+        }
+        return false;
     }
-    
+
     /**
      * Pasa de una ventana a otra 
      * 
