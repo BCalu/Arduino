@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JCheckBox;
@@ -42,6 +43,7 @@ public class GUI extends javax.swing.JFrame{
                 }
                 else{
                     bloquearCheckBox();
+                    jButton_Graficar.setEnabled(false);
                 }
             }
         });
@@ -108,7 +110,7 @@ public class GUI extends javax.swing.JFrame{
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jButton_Exportar = new javax.swing.JButton();
+        jButton_ExportarRegistros = new javax.swing.JButton();
         jComboBox_Registro1 = new javax.swing.JComboBox<>();
         jComboBox_Registro2 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
@@ -143,14 +145,14 @@ public class GUI extends javax.swing.JFrame{
         jLabel5.setText("Registro 2");
         jFrame1.getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, -1, -1));
 
-        jButton_Exportar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jButton_Exportar.setText("Exportar");
-        jButton_Exportar.addActionListener(new java.awt.event.ActionListener() {
+        jButton_ExportarRegistros.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jButton_ExportarRegistros.setText("Exportar");
+        jButton_ExportarRegistros.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_ExportarActionPerformed(evt);
+                jButton_ExportarRegistrosActionPerformed(evt);
             }
         });
-        jFrame1.getContentPane().add(jButton_Exportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, -1, -1));
+        jFrame1.getContentPane().add(jButton_ExportarRegistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, -1, -1));
 
         jFrame1.getContentPane().add(jComboBox_Registro1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 220, -1));
 
@@ -276,7 +278,7 @@ public class GUI extends javax.swing.JFrame{
         }
     }//GEN-LAST:event_jButton_ExportarDatosActionPerformed
 
-    private void jButton_ExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ExportarActionPerformed
+    private void jButton_ExportarRegistrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ExportarRegistrosActionPerformed
         Date fechaInicial = null;
         Date fechaFinal = null;
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -289,7 +291,7 @@ public class GUI extends javax.swing.JFrame{
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        if(compararFechas(fechaInicial, fechaFinal) == true){
+        if(compararFechas(fechaInicial, fechaFinal, df) == true){
             ResultSet rs = obtenerRegistros(SfechaInicial, SfechaFinal);
             if(escribirEnTXT(rs)){
                 JOptionPane.showMessageDialog(null, "Archivo de texto creado.");
@@ -297,16 +299,12 @@ public class GUI extends javax.swing.JFrame{
             else{
                 JOptionPane.showMessageDialog(null, "Operacion cancelada.");
             }
-            
-            //Implementar ventana de notificacion de que se creo el archivo
             cambiarDeVentana(jFrame1, this);
         }
         else{
             JOptionPane.showMessageDialog(null, "Fechas ingresadas no validas.");
-            //Implementar venata de notificacion sobre el error
-            //System.out.println("NEL :V");
         }
-    }//GEN-LAST:event_jButton_ExportarActionPerformed
+    }//GEN-LAST:event_jButton_ExportarRegistrosActionPerformed
 
     private void jFrame1WindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jFrame1WindowClosing
         cambiarDeVentana(jFrame1, this);
@@ -317,13 +315,40 @@ public class GUI extends javax.swing.JFrame{
      * 
      * @param f1 fecha inicial
      * @param f2 fecha final
+     * @param df formato de la fecha
      * @return true si final es despues de inicial, false de caso contrario
      */
-    public boolean compararFechas(Date f1, Date f2){
-        if(f1 == null && f2 == null){
+    public boolean compararFechas(Date f1, Date f2, DateFormat df){
+        if(f1==null || f2==null)
             return false;
+            
+        if (f2.after(f1) || f2.equals(f1)){
+            System.out.println("ENTRO");
+            StringTokenizer t1_f1 = new StringTokenizer(getTiempo(df.format(f1)), ":");
+            int horas_f1 = Integer.parseInt(t1_f1.nextToken());
+            int minutos_f1 = Integer.parseInt(t1_f1.nextToken());
+            StringTokenizer t2_f2 = new StringTokenizer(t1_f1.nextToken(), ".");
+            int segundos_f1 = Integer.parseInt(t2_f2.nextToken());
+            int milisegundos_f1 = Integer.parseInt(t2_f2.nextToken());
+            
+            StringTokenizer t1_f2 = new StringTokenizer(getTiempo(df.format(f1)), ":");
+            int horas_f2 = Integer.parseInt(t1_f2.nextToken());
+            int minutos_f2 = Integer.parseInt(t1_f2.nextToken());
+            StringTokenizer t2 = new StringTokenizer(t1_f2.nextToken(), ".");
+            int segundos_f2 = Integer.parseInt(t2.nextToken());
+            int milisegundos_f2 = Integer.parseInt(t2.nextToken());
+            
+            if(horas_f2 >= horas_f1){
+                if(minutos_f2 >= minutos_f1){
+                    if(segundos_f2 >= segundos_f1){
+                        if(milisegundos_f2 >= milisegundos_f1){
+                            return true;
+                        }
+                    }
+                }
+            }
         }
-        return f2.after(f1) || f2.equals(f1);
+        return false;
     }
     
     /**
@@ -458,8 +483,14 @@ public class GUI extends javax.swing.JFrame{
         jButton_Graficar.setEnabled(false);
         jButton_Detener.setEnabled(false);
         //jButton_ExportarDatos.setEnabled(false);
-    }   
-      
+    }
+    
+    public String getTiempo(String fecha){
+        StringTokenizer t = new StringTokenizer(fecha, " ");
+        t.nextToken();
+        return t.nextToken();
+    }
+ 
     /**
      * @param args the command line arguments
      */
@@ -497,8 +528,8 @@ public class GUI extends javax.swing.JFrame{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_Detener;
-    private javax.swing.JButton jButton_Exportar;
     private javax.swing.JButton jButton_ExportarDatos;
+    private javax.swing.JButton jButton_ExportarRegistros;
     private javax.swing.JButton jButton_Graficar;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
