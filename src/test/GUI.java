@@ -16,7 +16,6 @@ import java.text.SimpleDateFormat;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -167,7 +166,7 @@ public class GUI extends javax.swing.JFrame{
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Eliga el n° de puerto COM");
+        jLabel1.setText("Eliga el N° de puerto USB");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, 20));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -270,7 +269,7 @@ public class GUI extends javax.swing.JFrame{
     private void jButton_ExportarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ExportarDatosActionPerformed
         cargarDatosComboBox(jComboBox_Registro1);
         cargarDatosComboBox(jComboBox_Registro2);
-        if(jComboBox_Registro1.getItemCount() == 0 && jComboBox_Registro2.getItemCount()==0){
+        if(jComboBox_Registro1.getItemCount()==0 && jComboBox_Registro2.getItemCount()==0){
             JOptionPane.showMessageDialog(null, "No hay registros existentes en la base de datos");
         }
         else{
@@ -323,7 +322,6 @@ public class GUI extends javax.swing.JFrame{
             return false;
             
         if (f2.after(f1) || f2.equals(f1)){
-            System.out.println("ENTRO");
             StringTokenizer t1_f1 = new StringTokenizer(getTiempo(df.format(f1)), ":");
             int horas_f1 = Integer.parseInt(t1_f1.nextToken());
             int minutos_f1 = Integer.parseInt(t1_f1.nextToken());
@@ -357,9 +355,9 @@ public class GUI extends javax.swing.JFrame{
      * @param B JComboBox donde se almacenaran los datos
      */
     public void cargarDatosComboBox(JComboBox B){
-        ResultSet valores = crud.CRUD.getQuery("SELECT Fecha FROM test");
-        String fecha;
         try {
+            ResultSet valores = crud.CRUD.getQuery("SELECT Fecha FROM test");
+            String fecha;
             while(valores.next()){
                 fecha = valores.getString("Fecha");
                 B.addItem(fecha);

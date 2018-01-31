@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 public class CRUD {
     
@@ -18,7 +19,8 @@ public class CRUD {
         try {
             conn = DriverManager.getConnection(DATABASE_URL,USERNAME,PASSWORD);
         } catch (SQLException ex){
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex);
+            //ex.printStackTrace();
         }
         //System.out.println("conectado");
         return conn;
@@ -38,7 +40,8 @@ public class CRUD {
             Statement stmt = send.createStatement();
             stmt.executeUpdate(sql);
         } catch (SQLException ex){
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex);
+            //ex.printStackTrace();
         }
     }
     
@@ -60,7 +63,8 @@ public class CRUD {
             PreparedStatement ps = get.prepareStatement(sql);
             resultset = ps.executeQuery(sql);   
         } catch (SQLException ex){
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex);
+            //ex.printStackTrace();
         }   
         return resultset;
     }   
